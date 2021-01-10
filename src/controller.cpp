@@ -16,12 +16,9 @@ void Controller::HandleInput(bool &running) {
       running = false;
     } else if (e.type == SDL_KEYDOWN) {
 
-      std::cout << "Input\n";
+      Notify(e.key.keysym.sym);
 
-      
-      Notify();
-
-      switch (e.key.keysym.sym) {
+      //switch (e.key.keysym.sym) {
         // case SDLK_UP:
         //   ChangeDirection(snake, Snake::Direction::kUp,
         //                   Snake::Direction::kDown);
@@ -42,24 +39,22 @@ void Controller::HandleInput(bool &running) {
         //                   Snake::Direction::kLeft);
         //   break;
 
-        
-        //Notify();
-      }
+      //}
     }
   }
 }
 
 //JAQ_Concern: Feels weird having to implement these methods here
-void Controller::Attach(IObserver *observer) {
+void Controller::Attach(IObserver<SDL_Keycode> *observer) {
   list_observer_.push_back(observer);
 }
-void Controller::Detach(IObserver *observer) {
+void Controller::Detach(IObserver<SDL_Keycode> *observer) {
   list_observer_.remove(observer);
 }
-void Controller::Notify() {
-  std::list<IObserver *>::iterator iterator = list_observer_.begin();
+void Controller::Notify(SDL_Keycode keycode) {
+  std::list<IObserver<SDL_Keycode> *>::iterator iterator = list_observer_.begin();
   while (iterator != list_observer_.end()) {
-    (*iterator)->Notified("Notification");
+    (*iterator)->Notified(keycode);
     ++iterator;
   }
 }

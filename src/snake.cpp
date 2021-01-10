@@ -35,9 +35,29 @@ void Snake::Update() {
   head_y = fmod(head_y + grid_height, grid_height);
 }
 
-void Snake::Notified(const std::string &message){
+void Snake::Notified(const SDL_Keycode &notification){
 
-  std::cout << "Observer: " << message << "\n";
+  std::cout << "Observer: ";
+
+  switch (notification) {
+    case SDLK_UP:
+      std::cout << "Up\n";
+      break;
+
+    case SDLK_DOWN:
+      std::cout << "Down\n";
+      break;
+
+    case SDLK_LEFT:
+      std::cout << "Left\n";
+      break;
+
+    case SDLK_RIGHT:
+      std::cout << "Right\n";
+      break;
+
+  }
+
 }
 
 // void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {

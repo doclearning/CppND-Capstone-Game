@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "observer.h"
 
-class Snake : public IObserver {
+class Snake : public IObserver<SDL_Keycode> {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
@@ -20,7 +20,7 @@ class Snake : public IObserver {
   //void GrowBody();
   bool SnakeCell(int x, int y);
 
-  void Notified(const std::string &message) override;
+  void Notified(const SDL_Keycode &notification) override;
 
   Direction direction = Direction::kUp;
 

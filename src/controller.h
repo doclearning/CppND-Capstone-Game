@@ -5,18 +5,18 @@
 #include "snake.h"
 #include "observer.h"
 
-class Controller : public ISubject {
+class Controller : public ISubject<SDL_Keycode> {
  public:
   void HandleInput(bool &running/*, Snake &snake*/);
 
-  void Attach(IObserver *observer) override;
-  void Detach(IObserver *observer) override;
-  void Notify() override;
+  void Attach(IObserver<SDL_Keycode> *observer) override;
+  void Detach(IObserver<SDL_Keycode> *observer) override;
+  void Notify(SDL_Keycode) override;
 
  private:
   void ChangeDirection(Snake &snake, Snake::Direction input, Snake::Direction opposite) const;
 
-  std::list<IObserver *> list_observer_;
+  std::list<IObserver<SDL_Keycode> *> list_observer_;
 };
 
 #endif
