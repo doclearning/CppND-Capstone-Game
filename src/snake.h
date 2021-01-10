@@ -3,8 +3,9 @@
 
 #include <vector>
 #include "SDL.h"
+#include "observer.h"
 
-class Snake {
+class Snake : public IObserver {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
@@ -18,6 +19,8 @@ class Snake {
 
   //void GrowBody();
   bool SnakeCell(int x, int y);
+
+  void Notified(const std::string &message) override;
 
   Direction direction = Direction::kUp;
 
