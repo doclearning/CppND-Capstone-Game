@@ -12,6 +12,8 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
+  IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+
   // Create Window
   sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
@@ -63,3 +65,14 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
+// SDL_Texture* Renderer::LoadTexture(std::string path){
+
+// 	SDL_Texture *texture;
+
+// 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", path.c_str());
+
+// 	texture = IMG_LoadTexture(sdl_renderer, path.c_str());
+
+// 	return texture;
+// }

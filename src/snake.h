@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "SDL.h"
+#include "SDL_image.h"
 #include "observer.h"
 #include "mathfu/vector.h"
 

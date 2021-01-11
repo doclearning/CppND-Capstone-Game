@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "SDL.h"
+#include "SDL_image.h"
 #include "snake.h"
 
 class Renderer {
@@ -19,6 +20,10 @@ class Renderer {
 
   const std::size_t screen_width;
   const std::size_t screen_height;
+
+  
+
+  SDL_Texture* LoadTexture(std::string path);
 };
 
 #endif
