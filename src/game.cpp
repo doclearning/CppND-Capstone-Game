@@ -1,14 +1,9 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "mathfu/vector.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
-      engine(dev()),
-      random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
-  //PlaceFood();
-}
+Game::Game(std::size_t screenWidth, std::size_t screenHeight): snake(mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2)), engine(dev()) {}
 
 void Game::Run(Controller &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
@@ -86,4 +81,3 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }

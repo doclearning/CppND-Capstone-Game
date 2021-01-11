@@ -3,12 +3,9 @@
 #include <string>
 
 Renderer::Renderer(const std::size_t screen_width,
-                   const std::size_t screen_height,
-                   const std::size_t grid_width, const std::size_t grid_height)
+                   const std::size_t screen_height)
     : screen_width(screen_width),
-      screen_height(screen_height),
-      grid_width(grid_width),
-      grid_height(grid_height) {
+      screen_height(screen_height) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -40,8 +37,8 @@ Renderer::~Renderer() {
 
 void Renderer::Render(Snake snake) {
   SDL_Rect block;
-  block.w = screen_width / grid_width;
-  block.h = screen_height / grid_height;
+  block.w = 20;
+  block.h = 20;
 
 
 
@@ -51,13 +48,10 @@ void Renderer::Render(Snake snake) {
 
   auto position = snake.GetPosition();
 
-  block.x = static_cast<int>(position[0]) * block.w;
-  block.y = static_cast<int>(position[1]) * block.h;
-  if (snake.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
-  } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-  }
+  block.x = static_cast<int>(position[0]);// * block.w;
+  block.y = static_cast<int>(position[1]);// * block.h;
+  
+  SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
 
   SDL_RenderFillRect(sdl_renderer, &block);
 

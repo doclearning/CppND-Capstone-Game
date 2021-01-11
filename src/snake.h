@@ -10,10 +10,8 @@ class Snake : public IObserver<SDL_Keycode> {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        position(grid_width / 2, grid_height / 2){}
+  Snake(mathfu::Vector<float, 2> spawnPosition)
+      : position(spawnPosition){}
 
   void Update();
 
@@ -22,10 +20,9 @@ class Snake : public IObserver<SDL_Keycode> {
 
   void Notified(const SDL_Keycode &notification) override;
 
-  Direction direction = Direction::kUp;
+  //Direction direction = Direction::kUp;
 
   float speed{1.0};
-  int size{1};
   bool alive{true};
 
   mathfu::Vector<float, 2>& GetPosition(){
@@ -35,10 +32,6 @@ class Snake : public IObserver<SDL_Keycode> {
  private:
 
   mathfu::Vector<float, 2> position;
-
-  bool growing{false};
-  int grid_width;
-  int grid_height;
 
   void Translate(const mathfu::Vector<float, 2> translation);
 };
