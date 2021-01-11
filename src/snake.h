@@ -4,6 +4,7 @@
 #include <vector>
 #include "SDL.h"
 #include "observer.h"
+#include "mathfu/vector.h"
 
 class Snake : public IObserver<SDL_Keycode> {
  public:
@@ -12,13 +13,12 @@ class Snake : public IObserver<SDL_Keycode> {
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+        position(grid_width / 2, grid_height / 2){}
 
   void Update();
 
   //void GrowBody();
-  bool SnakeCell(int x, int y);
+  //bool SnakeCell(int x, int y);
 
   void Notified(const SDL_Keycode &notification) override;
 
@@ -27,17 +27,20 @@ class Snake : public IObserver<SDL_Keycode> {
   float speed{1.0};
   int size{1};
   bool alive{true};
-  float head_x;
-  float head_y;
-  std::vector<SDL_Point> body;
+
+  mathfu::Vector<float, 2>& GetPosition(){
+    return position;
+  }
 
  private:
-  //void UpdateHead();
-  //void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+
+  mathfu::Vector<float, 2> position;
 
   bool growing{false};
   int grid_width;
   int grid_height;
+
+  void Translate(const mathfu::Vector<float, 2> translation);
 };
 
 #endif
