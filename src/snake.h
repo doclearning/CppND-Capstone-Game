@@ -11,17 +11,11 @@ class Snake : public IObserver<SDL_Keycode> {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(mathfu::Vector<float, 2> spawnPosition)
-      : position(spawnPosition){}
+  Snake(mathfu::Vector<float, 2> spawnPosition) : position(spawnPosition){}
 
   void Update();
 
-  //void GrowBody();
-  //bool SnakeCell(int x, int y);
-
   void Notified(const SDL_Keycode &notification) override;
-
-  //Direction direction = Direction::kUp;
 
   float speed{1.0};
   bool alive{true};

@@ -42,16 +42,14 @@ void Renderer::Render(Snake snake) {
   block.w = 20;
   block.h = 20;
 
-
-
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
   auto position = snake.GetPosition();
 
-  block.x = static_cast<int>(position[0]);// * block.w;
-  block.y = static_cast<int>(position[1]);// * block.h;
+  block.x = static_cast<int>(position[0]);
+  block.y = static_cast<int>(position[1]);
   
   SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
 
@@ -68,11 +66,8 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
 
 // SDL_Texture* Renderer::LoadTexture(std::string path){
 
-// 	SDL_Texture *texture;
-
+// 	SDL_Texture *texture; 
 // 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", path.c_str());
-
 // 	texture = IMG_LoadTexture(sdl_renderer, path.c_str());
-
 // 	return texture;
 // }

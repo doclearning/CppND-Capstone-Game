@@ -3,7 +3,7 @@
 
 #include <string>
 
-//JAQ_TODO: need to templateise this, so we can pass functions, say
+//JAQ_TODO: Maybe pass functions rather than object?
 
 template <class T>
 class IObserver {

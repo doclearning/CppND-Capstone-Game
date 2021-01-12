@@ -38,7 +38,6 @@ void Snake::Notified(const SDL_Keycode &notification){
       break;
 
   }
-
 }
 
 void Snake::Translate(const mathfu::Vector<float, 2> translation){
