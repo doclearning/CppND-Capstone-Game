@@ -37,7 +37,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Ship ship) {
+void Renderer::Render(Ship &ship) {
   SDL_Rect block;
   block.w = 20;
   block.h = 20;
@@ -46,7 +46,7 @@ void Renderer::Render(Ship ship) {
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
-  auto position = ship.GetPosition();
+  auto position = ship.transform.position;
 
   block.x = static_cast<int>(position[0]);
   block.y = static_cast<int>(position[1]);
