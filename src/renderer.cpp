@@ -46,7 +46,7 @@ void Renderer::Render(Ship &ship) {
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
-  auto position = ship.transform.position;
+  auto position = ship.transform->position;
 
   block.x = static_cast<int>(position[0]);
   block.y = static_cast<int>(position[1]);
