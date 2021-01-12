@@ -2,7 +2,7 @@
 #define CONTROLLER_H
 
 #include <list>
-#include "snake.h"
+#include "SDL.h"
 #include "observer.h"
 
 class Controller : public ISubject<SDL_Keycode> {
@@ -14,8 +14,6 @@ class Controller : public ISubject<SDL_Keycode> {
   void Notify(SDL_Keycode) override;
 
  private:
-  void ChangeDirection(Snake &snake, Snake::Direction input, Snake::Direction opposite) const;
-
   std::list<IObserver<SDL_Keycode> *> list_observer_;
 };
 

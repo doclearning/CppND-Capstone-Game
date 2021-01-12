@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
-#include "snake.h"
+#include "ship.h"
 
 class Game {
  public:
@@ -15,7 +15,7 @@ class Game {
   int GetSize() const;
 
  private:
-  Snake snake;
+  Ship ship;
   std::size_t screenWidth; 
   std::size_t screenHeight;
 

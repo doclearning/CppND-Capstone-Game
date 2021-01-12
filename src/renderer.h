@@ -4,14 +4,14 @@
 #include <vector>
 #include "SDL.h"
 #include "SDL_image.h"
-#include "snake.h"
+#include "ship.h"
 
 class Renderer {
  public:
   Renderer(const std::size_t screen_width, const std::size_t screen_height);
   ~Renderer();
 
-  void Render(Snake const snake);
+  void Render(Ship const snake);
   void UpdateWindowTitle(int score, int fps);
 
  private:

@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "mathfu/vector.h"
 
-Game::Game(std::size_t screenWidth, std::size_t screenHeight): snake(mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2)) {}
+Game::Game(std::size_t screenWidth, std::size_t screenHeight): ship(mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2)) {}
 
 void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_frame_duration) {
 
@@ -14,7 +14,7 @@ void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_fr
   int frame_count = 0;
   bool running = true;
 
-  controller.Attach(&snake);
+  controller.Attach(&ship);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -22,7 +22,7 @@ void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_fr
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running);
     Update();
-    renderer.Render(snake);
+    renderer.Render(ship);
 
     frame_end = SDL_GetTicks();
 
@@ -48,9 +48,9 @@ void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_fr
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!ship.alive) return;
 
-  snake.Update();
+  ship.Update();
 }
 
 int Game::GetScore() const { return score; }

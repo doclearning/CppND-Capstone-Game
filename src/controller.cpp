@@ -2,7 +2,6 @@
 
 #include "controller.h"
 #include "SDL.h"
-#include "snake.h"
 
 void Controller::HandleInput(bool &running) {
   SDL_Event e;
