@@ -37,28 +37,6 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Ship &ship) {
-  SDL_Rect block;
-  block.w = 20;
-  block.h = 20;
-
-  // Clear screen
-  SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(sdl_renderer);
-
-  auto position = ship.transform->position;
-
-  block.x = static_cast<int>(position[0]);
-  block.y = static_cast<int>(position[1]);
-  
-  SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
-
-  SDL_RenderFillRect(sdl_renderer, &block);
-
-  // Update Screen
-  SDL_RenderPresent(sdl_renderer);
-}
-
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());

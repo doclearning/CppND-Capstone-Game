@@ -21,7 +21,7 @@ class GObject {
 public: 
     virtual void Update() = 0;
 
-    GObject(mathfu::Vector<float, 2> &&positionIn) : transform(std::make_shared<Transform>(std::move(positionIn))){}
+    GObject(mathfu::Vector<float, 2> &&positionIn) : transform(positionIn){}
 
     //Should component here be a shared pointer, or moved here
     void AddComponent(IComponent component){
@@ -30,6 +30,7 @@ public:
             //add component to list
             //Give component transform
             //Give it anything else required
+        
         
     }
 
@@ -42,7 +43,7 @@ public:
     }
 
     //JAQ_Query Should this be a shared pointer, so that all components get passed a pointer to it?
-    std::shared_ptr<Transform> transform;
+    Transform transform;
 
 private:
     std::vector<IComponent> components {};
