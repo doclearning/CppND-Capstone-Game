@@ -5,18 +5,22 @@
 #include "SDL.h"
 
 #include "component.h"
+#include "renderer.h"
+
+class Renderer;
 
 class DefaultRenderComponent : public IComponent{
 
 public:
-    virtual void Draw(SDL_Renderer *myRenderer);
+    DefaultRenderComponent(Transform &transformIn) : transform(transformIn){};
+    virtual void Draw(Renderer &renderer);
 
-    SDL_Renderer *sdl_renderer;
+    //SDL_Renderer *sdl_renderer;
 
-    virtual void InitialiseTransform(Transform &transformIn) override{
+    // virtual void InitialiseTransform(Transform &transformIn) override{
         
-        transform = transformIn;
-    }
+    //     transform = transformIn;
+    // }
 
 private:
     //std::shared_ptr<Transform>();

@@ -13,7 +13,7 @@ class Ship : public GObject, public IObserver<SDL_Keycode> {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Ship(mathfu::Vector<float, 2> &&spawnPosition);
+  Ship(std::string &&nameIn, mathfu::Vector<float, 2> &&spawnPosition);
 
   void Update();
 

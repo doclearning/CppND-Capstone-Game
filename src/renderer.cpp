@@ -37,13 +37,17 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::TestDraw(){
+void Renderer::FrameBegin(){
 
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 128, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
   // Update Screen
+  //SDL_RenderPresent(sdl_renderer);
+}
+
+void Renderer::FrameEnd(){
   SDL_RenderPresent(sdl_renderer);
 }
 

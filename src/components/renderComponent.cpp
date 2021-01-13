@@ -1,27 +1,27 @@
 #include "renderComponent.h"
+#include <iostream>
 
 // DefaultRenderComponent::DefaultRenderComponent(){
 
 // }
 
-void DefaultRenderComponent::Draw(SDL_Renderer *sdl_renderer) {
+void DefaultRenderComponent::Draw(Renderer &renderer) {
+
+  //std::cout << "Rendering DefaultRenderComponent\n";
+
   SDL_Rect block;
   block.w = 20;
   block.h = 20;
 
-  // Clear screen
-  SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(sdl_renderer);
-
   auto position = transform.position;
 
-  block.x = static_cast<int>(position[0]);
-  block.y = static_cast<int>(position[1]);
+  block.x = static_cast<int>(100);
+  block.y = static_cast<int>(100);
   
-  SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer.GetRenderContext(), 255, 0, 0, 255);
 
-  SDL_RenderFillRect(sdl_renderer, &block);
+  SDL_RenderFillRect(renderer.GetRenderContext(), &block);
 
   // Update Screen
-  SDL_RenderPresent(sdl_renderer);
+  //SDL_RenderPresent(renderer.GetRenderContext());
 }

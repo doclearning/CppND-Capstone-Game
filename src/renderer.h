@@ -11,12 +11,14 @@ class Renderer {
   Renderer(const std::size_t screen_width, const std::size_t screen_height);
   ~Renderer();
 
-  //void Render(Ship &ship);
-
-  void TestDraw();
-
-
+  void FrameBegin();
+  void FrameEnd();
   void UpdateWindowTitle(int score, int fps);
+
+  SDL_Renderer* GetRenderContext(){
+
+    return sdl_renderer;
+  }
 
  private:
   SDL_Window *sdl_window;
