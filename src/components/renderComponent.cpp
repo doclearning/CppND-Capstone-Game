@@ -1,8 +1,8 @@
 #include "renderComponent.h"
 
-DefaultRenderComponent::DefaultRenderComponent(){
+// DefaultRenderComponent::DefaultRenderComponent(){
 
-}
+// }
 
 void DefaultRenderComponent::Draw(SDL_Renderer *sdl_renderer) {
   SDL_Rect block;

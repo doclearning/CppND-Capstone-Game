@@ -37,6 +37,16 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
+void Renderer::TestDraw(){
+
+  // Clear screen
+  SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 128, 0xFF);
+  SDL_RenderClear(sdl_renderer);
+
+  // Update Screen
+  SDL_RenderPresent(sdl_renderer);
+}
+
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());

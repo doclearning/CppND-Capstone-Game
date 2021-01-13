@@ -9,13 +9,18 @@
 class DefaultRenderComponent : public IComponent{
 
 public:
-    void Draw(SDL_Renderer *myRenderer);
+    virtual void Draw(SDL_Renderer *myRenderer);
 
     SDL_Renderer *sdl_renderer;
 
+    virtual void InitialiseTransform(Transform &transformIn) override{
+        
+        transform = transformIn;
+    }
+
 private:
     //std::shared_ptr<Transform>();
-
+    Transform &transform;
 };
 
 #endif

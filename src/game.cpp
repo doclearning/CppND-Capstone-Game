@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "mathfu/vector.h"
 
-Game::Game(std::size_t screenWidth, std::size_t screenHeight): ship(std::move(mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2))) {}
+Game::Game(std::size_t screenWidth, std::size_t screenHeight) : ship(mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2)){}
 
 void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_frame_duration) {
 
@@ -22,7 +22,7 @@ void Game::Run(Controller &controller, Renderer &renderer, std::size_t target_fr
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running);
     Update();
-    renderer.Render(ship);
+    renderer.TestDraw();
 
     frame_end = SDL_GetTicks();
 

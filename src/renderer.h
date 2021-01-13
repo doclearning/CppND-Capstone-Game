@@ -11,7 +11,11 @@ class Renderer {
   Renderer(const std::size_t screen_width, const std::size_t screen_height);
   ~Renderer();
 
-  void Render(Ship &ship);
+  //void Render(Ship &ship);
+
+  void TestDraw();
+
+
   void UpdateWindowTitle(int score, int fps);
 
  private:
