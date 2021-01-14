@@ -35,7 +35,7 @@ class Game {
   int score{0};
 
   //Ship ship;
-  Controller controller {};
+  //Controller controller {};
 };
 
 #endif

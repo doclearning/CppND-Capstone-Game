@@ -3,7 +3,12 @@
 #include "SDL.h"
 #include "mathfu/vector.h"
 
+//#include "singleton.h"
+
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
+
+  //auto const& t = Test::instance();
+  //t.use();
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -15,6 +20,8 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   int frame_count = 0;
   bool running = true;
 
+  auto &controller = Controller::instance();
+
   //JAQ_Todo Randomise this at the top of the screen
   auto shipSpawn = mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2);
 
@@ -22,12 +29,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultRenderComponent>();
-  auto shipInputComponent = ship->AddComponent<DefaultInputComponent>();
-  
-  //Could do this the other way, and try and pass the controller to the component, and then it registers itself
-  //Maybe do the dirty and have a singleton pattern for controller, so that the DefaultInputComponent can register and deregister itself.
-
-  controller.Attach(shipInputComponent.get()); //JAQ_Issue Kind of weird sending a raw pointer to this
+  ship->AddComponent<DefaultInputComponent>();
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -35,8 +37,8 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running);
     Update();
-    renderer.FrameBegin();
 
+    renderer.FrameBegin();
     for(auto &gobject : gameObjects){
       for(auto &component : gobject->components){
         //if(instanceof<DefaultRenderComponent>(*component)){ //JAQ_Query Confused why this doesn't work
@@ -44,7 +46,6 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
         //}
       }
     }
-
     renderer.FrameEnd();
 
     frame_end = SDL_GetTicks();

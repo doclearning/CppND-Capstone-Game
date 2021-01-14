@@ -1,6 +1,14 @@
 #include "defaultInputComponent.h"
 #include <iostream>
 #include "mathfu/constants.h"
+#include "controller.h"
+
+//Uses the Controller singleton to attach to it as an IObserver
+DefaultInputComponent::DefaultInputComponent(Transform &transformIn) : transform(transformIn){
+
+    auto &controller = Controller::instance();
+    controller.Attach(this);
+}
 
 void DefaultInputComponent::Update(){
 }
@@ -34,6 +42,10 @@ void DefaultInputComponent::Notified(const SDL_Keycode &notification){
       break;
 
   }
+}
 
-  std::cout << "transform position = " << transform.position[0] << "," << transform.position[1] << "\n";
+DefaultInputComponent::~DefaultInputComponent(){
+
+    auto &controller = Controller::instance();
+    controller.Detach(this);
 }

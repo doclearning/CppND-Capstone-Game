@@ -33,6 +33,7 @@ public:
 
     //Templated method prevents me having to pass gobject.transform as a parameter to the IComponent object
     //The pointer is copied on the return to allow for setup of the object in the calling function
+    //Quite neat, though means you can't use the constructor. Well, maybe there's a clever way to template that actually
     template <typename T>
     std::shared_ptr<T> AddComponent(){
         std::shared_ptr<T> addedComponent = std::make_shared<T>(transform);
@@ -54,7 +55,6 @@ public:
             //Deregister it from things if required
             //Destroy component
     //}
-
     
     std::string name;
     Transform transform;
