@@ -2,8 +2,16 @@
 #include <iostream>
 #include "SDL.h"
 #include "mathfu/vector.h"
+#include "meshRenderComponent.h"
 
-//#include "singleton.h"
+#define POINTS_COUNT 5
+static SDL_Point testMesh[POINTS_COUNT] = {
+    {-8, 8},
+    {0, -16},
+    {8, 8},
+    {0, 0},
+    {-8, 8}
+};
 
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
 }
@@ -25,8 +33,13 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawn));
   gameObjects.push_back(ship);
 
-  ship->AddComponent<DefaultRenderComponent>();
   ship->AddComponent<DefaultInputComponent>();
+  auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
+  
+  shipRenderComponent->SetMesh(testMesh, POINTS_COUNT, mathfu::Vector<int, 4>(0, 255, 0, 255));
+
+
+  
 
   while (running) {
     frame_start = SDL_GetTicks();

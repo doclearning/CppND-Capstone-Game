@@ -14,6 +14,7 @@ public:
     DefaultRenderComponent(Transform &transformIn) : transform(transformIn){};
     virtual void Draw(Renderer &renderer) override;
     virtual void Update() override{};
+    
 
 private:
     Transform &transform;

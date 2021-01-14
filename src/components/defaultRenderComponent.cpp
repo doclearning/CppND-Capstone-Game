@@ -22,6 +22,4 @@ void DefaultRenderComponent::Draw(Renderer &renderer) {
 
   SDL_RenderFillRect(renderer.GetRenderContext(), &block);
 
-  // Update Screen
-  //SDL_RenderPresent(renderer.GetRenderContext());
 }

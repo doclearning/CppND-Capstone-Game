@@ -10,6 +10,7 @@ struct Transform {
     Transform(mathfu::Vector<float, 2> positionIn) : position(positionIn){};
 
     mathfu::Vector<float, 2> position;
+    float zAxisAngle = 0;
 };
 
 #endif

@@ -33,12 +33,12 @@ void DefaultInputComponent::Notified(const SDL_Keycode &notification){
 
     case SDLK_LEFT:
       std::cout << "Left\n";
-      transform.position += -mathfu::kAxisX2f*tempFactor;
+      transform.zAxisAngle -= 0.0872665;
       break;
 
     case SDLK_RIGHT:
       std::cout << "Right\n";
-      transform.position += mathfu::kAxisX2f*tempFactor;
+      transform.zAxisAngle += 0.0872665;
       break;
 
   }

@@ -40,11 +40,8 @@ Renderer::~Renderer() {
 void Renderer::FrameBegin(){
 
   // Clear screen
-  SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 128, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
   SDL_RenderClear(sdl_renderer);
-
-  // Update Screen
-  //SDL_RenderPresent(sdl_renderer);
 }
 
 void Renderer::FrameEnd(){
@@ -55,11 +52,3 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
-
-// SDL_Texture* Renderer::LoadTexture(std::string path){
-
-// 	SDL_Texture *texture; 
-// 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", path.c_str());
-// 	texture = IMG_LoadTexture(sdl_renderer, path.c_str());
-// 	return texture;
-// }
