@@ -15,15 +15,21 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   int frame_count = 0;
   bool running = true;
 
-  Ship ship("PlayerShip", mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2));
+  //confused why this doesn't work: static_cast<float>(screenWidth/2), static_cast<float>(screenHeight/2)
+  auto shipSpawn = mathfu::Vector<float, 2>(320, 240);
+
+  std::cout << "Ship spawn location = " << shipSpawn[0] << ", " << shipSpawn[1] << "\n";
+
+  auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawn));
+  gameObjects.push_back(ship);
+
+  ship->AddComponent<DefaultRenderComponent>();
   //JAQ_TODO Need to attach the controller as a component
-
-  ship.AddComponent(DefaultRenderComponent(ship.transform));
   
-  gameObjects.emplace_back(ship);
+  
   
 
-  //controller.Attach(&ship); //Kind of weird sending a raw pointer to this
+  controller.Attach(ship.get()); //Kind of weird sending a raw pointer to this
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -34,9 +40,9 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     renderer.FrameBegin();
 
     for(auto &gobject : gameObjects){
-      for(auto &component : gobject.components){
-        //if(instanceof<DefaultRenderComponent>(component)){
-          component.Draw(renderer);
+      for(auto &component : gobject->components){
+        //if(instanceof<DefaultRenderComponent>(*component)){ //JAQ_Query Confused why this doesn't work
+          component->Draw(renderer);
         //}
       }
     }
@@ -71,7 +77,7 @@ void Game::Update() {
 
   for(auto &gobject : gameObjects){
 
-    gobject.Update();
+    gobject->Update();
   }
 
 }
