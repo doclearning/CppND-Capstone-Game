@@ -10,8 +10,7 @@ class Renderer;
 class IComponent {
  public:
   virtual ~IComponent(){};
-  virtual void Draw(Renderer &renderer){}
-  //virtual void InitialiseTransform(Transform &transform) = 0;
+  virtual void Draw(Renderer &renderer) = 0;
 };
 
 #endif

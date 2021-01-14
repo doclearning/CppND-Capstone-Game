@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "ship.h"
+#include "defaultInputComponent.h"
 
 //Check object is of class type
 template<typename Base, typename T>

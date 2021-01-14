@@ -1,4 +1,4 @@
-#include "renderComponent.h"
+#include "defaultRenderComponent.h"
 #include <iostream>
 
 // DefaultRenderComponent::DefaultRenderComponent(){

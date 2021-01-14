@@ -7,7 +7,7 @@
 
 #include "mathfu/vector.h"
 #include "component.h"
-#include "renderComponent.h"
+#include "defaultRenderComponent.h"
 #include "transform.h"
  
 //I really don't understand why this is needed

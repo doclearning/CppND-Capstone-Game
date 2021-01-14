@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "mathfu/vector.h"
 
-Game::Game(std::size_t screenWidth, std::size_t screenHeight) {
+Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -15,21 +15,21 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   int frame_count = 0;
   bool running = true;
 
-  //confused why this doesn't work: static_cast<float>(screenWidth/2), static_cast<float>(screenHeight/2)
-  auto shipSpawn = mathfu::Vector<float, 2>(320, 240);
-
-  std::cout << "Ship spawn location = " << shipSpawn[0] << ", " << shipSpawn[1] << "\n";
+  //JAQ_Todo Randomise this at the top of the screen
+  auto shipSpawn = mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2);
 
   auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawn));
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultRenderComponent>();
+  //auto shipInputComponent = ship->AddComponent<DefaultInputComponent>();
+  //shipInputComponent->Attach(ship.get());
   //JAQ_TODO Need to attach the controller as a component
   
   
   
 
-  controller.Attach(ship.get()); //Kind of weird sending a raw pointer to this
+  //controller.Attach(ship.get()); //Kind of weird sending a raw pointer to this
 
   while (running) {
     frame_start = SDL_GetTicks();
