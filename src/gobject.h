@@ -17,7 +17,13 @@ class IComponent;
 class GObject {
 
 public: 
-    virtual void Update(){};
+    virtual void Update(){
+
+      for(auto &component : components){
+        component->Update();
+      }
+
+    }
 
     //JAQ_Query do I need to std::move the arguments here
     GObject(std::string &&nameIn, mathfu::Vector<float, 2> &&positionIn) : name(nameIn), transform(positionIn){

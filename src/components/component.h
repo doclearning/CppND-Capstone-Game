@@ -3,7 +3,7 @@
 
 #include <string>
 #include "transform.h"
-#include "renderer.h"
+//#include "renderer.h"
 
 class Renderer;
 
@@ -11,6 +11,7 @@ class IComponent {
  public:
   virtual ~IComponent(){};
   virtual void Draw(Renderer &renderer) = 0;
+  virtual void Update() = 0;
 };
 
 #endif

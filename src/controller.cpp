@@ -15,7 +15,6 @@ void Controller::HandleInput(bool &running) {
   }
 }
 
-//JAQ_Concern: Feels weird having to implement these methods here
 void Controller::Attach(IObserver<SDL_Keycode> *observer) {
   list_observer_.push_back(observer);
 }

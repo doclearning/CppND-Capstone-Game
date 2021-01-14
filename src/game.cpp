@@ -22,14 +22,12 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultRenderComponent>();
-  //auto shipInputComponent = ship->AddComponent<DefaultInputComponent>();
-  //shipInputComponent->Attach(ship.get());
-  //JAQ_TODO Need to attach the controller as a component
+  auto shipInputComponent = ship->AddComponent<DefaultInputComponent>();
   
-  
-  
+  //Could do this the other way, and try and pass the controller to the component, and then it registers itself
+  //Maybe do the dirty and have a singleton pattern for controller, so that the DefaultInputComponent can register and deregister itself.
 
-  //controller.Attach(ship.get()); //Kind of weird sending a raw pointer to this
+  controller.Attach(shipInputComponent.get()); //JAQ_Issue Kind of weird sending a raw pointer to this
 
   while (running) {
     frame_start = SDL_GetTicks();
