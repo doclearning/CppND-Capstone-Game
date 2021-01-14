@@ -6,9 +6,6 @@
 //#include "singleton.h"
 
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
-
-  //auto const& t = Test::instance();
-  //t.use();
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {

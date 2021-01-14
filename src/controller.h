@@ -25,15 +25,3 @@ class Controller : public Singleton<Controller>, public ISubject<SDL_Keycode> {
 };
 
 #endif
-
-
-class Test final : public Singleton<Test>
-{
-public:
-    Test(token) { std::cout << "constructed" << std::endl; }
-    ~Test() {  std::cout << "destructed" << std::endl; }
-
-    void use() const { 
-        std::cout << "in use" << std::endl; 
-    };
-};
