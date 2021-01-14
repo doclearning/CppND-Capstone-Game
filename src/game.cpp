@@ -35,9 +35,9 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
     for(auto &gobject : gameObjects){
       for(auto &component : gobject.components){
-        if(instanceof<DefaultRenderComponent>(component)){
+        //if(instanceof<DefaultRenderComponent>(component)){
           component.Draw(renderer);
-        }
+        //}
       }
     }
 

@@ -10,6 +10,7 @@
  
 //I really don't understand why this is needed
 class DefaultRenderComponent;
+class IComponent;
 
 class GObject {
 
