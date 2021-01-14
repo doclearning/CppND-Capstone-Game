@@ -19,17 +19,9 @@ public:
     //JAQ_Query do I need to std::move the arguments here
     GObject(std::string &&nameIn, mathfu::Vector<float, 2> &&positionIn) : name(nameIn), transform(positionIn){}
 
-    //Should component here be a shared pointer, or moved here
-    void AddComponent(DefaultRenderComponent &&defaultRenderComponent){
+    void AddComponent(DefaultRenderComponent &&component){
 
-        //JAQ_Todo: 
-            //add component to list
-            //Give component transform
-            //Give it anything else required
-        components.emplace_back(defaultRenderComponent);
-        
-
-        //DefaultRenderComponent &&component
+        components.emplace_back(component);
     }
 
     //void RemoveComponent(IComponent component){
@@ -40,7 +32,7 @@ public:
             //Destroy component
     //}
 
-    //JAQ_Query Should this be a shared pointer, so that all components get passed a pointer to it?
+    
     std::string name;
     Transform transform;
     std::vector<DefaultRenderComponent> components {};

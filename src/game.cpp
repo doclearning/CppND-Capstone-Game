@@ -4,13 +4,6 @@
 #include "mathfu/vector.h"
 
 Game::Game(std::size_t screenWidth, std::size_t screenHeight) {
-
-   //Attach renderer as a component
-   //Need to attach the controller as a component
-
-
-  //controller.Attach(&ship); //Kind of weird sending a raw pointer to this
-  
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -23,12 +16,14 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   bool running = true;
 
   Ship ship("PlayerShip", mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2));
+  //JAQ_TODO Need to attach the controller as a component
 
-  DefaultRenderComponent shipRenderer(ship.transform);
-
-  ship.AddComponent(std::move(shipRenderer));
-
+  ship.AddComponent(DefaultRenderComponent(ship.transform));
+  
   gameObjects.emplace_back(ship);
+  
+
+  //controller.Attach(&ship); //Kind of weird sending a raw pointer to this
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -40,7 +35,9 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
     for(auto &gobject : gameObjects){
       for(auto &component : gobject.components){
-        component.Draw(renderer);
+        if(instanceof<DefaultRenderComponent>(component)){
+          component.Draw(renderer);
+        }
       }
     }
 

@@ -15,7 +15,7 @@ void Ship::Update() {
   //head_x = fmod(head_x + grid_width, grid_width);
   //head_y = fmod(head_y + grid_height, grid_height);
 
-  std::cout << "Ship update\n";
+  //std::cout << "Ship update\n";
 }
 
 void Ship::Notified(const SDL_Keycode &notification){

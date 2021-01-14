@@ -7,6 +7,12 @@
 #include "renderer.h"
 #include "ship.h"
 
+//Check object is of class type
+template<typename Base, typename T>
+inline bool instanceof(const T&) {
+  return std::is_base_of<Base, T>::value;
+}
+
 class Game {
  public:
   Game(std::size_t screenWidth, std::size_t screenHeight);
