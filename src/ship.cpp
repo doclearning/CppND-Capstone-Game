@@ -5,7 +5,7 @@
 
 #include "mathfu/constants.h"
 
-Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 2> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)){
+Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)){
 
   std::cout << "Ship created\n";
 }

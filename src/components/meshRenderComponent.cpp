@@ -12,10 +12,26 @@ void MeshRenderComponent::Draw(Renderer &renderer) {
 
   UpdateWorldSpaceMesh();
 
+  UpdateMeshCache();
+
   SDL_SetRenderDrawColor(renderer.GetRenderContext(), rgba[0], rgba[1], rgba[2], rgba[3]);
 
-  SDL_RenderDrawLines(renderer.GetRenderContext(), worldSpacePoints, numVertices);
+  SDL_RenderDrawLines(renderer.GetRenderContext(), meshCache, numVertices);
 
+  SDL_SetRenderDrawColor(renderer.GetRenderContext(), 255, 0, 0, rgba[3]);
+
+  int worldX = static_cast<int>(transform.position[0]);
+  int worldY = static_cast<int>(transform.position[1]);
+
+
+  SDL_RenderDrawLine(renderer.GetRenderContext(), worldX, worldY, worldX+(transform.forward[0]*20), worldY+(transform.forward[1]*20));
+}
+
+void MeshRenderComponent::UpdateMeshCache(){
+  for(int i = 0; i < numVertices; ++i){
+    meshCache[i].x = static_cast<int>(worldSpace[i].x);
+    meshCache[i].y = static_cast<int>(worldSpace[i].y);
+  }
 }
 
 void MeshRenderComponent::UpdateWorldSpaceMesh(){
@@ -23,10 +39,11 @@ void MeshRenderComponent::UpdateWorldSpaceMesh(){
   int xOffset = static_cast<int>(transform.position[0]);
   int yOffset = static_cast<int>(transform.position[1]);
 
+  //JAQ_Todo probably convert transform.position to a 3vec, and just add here
   for(int i = 0; i < numVertices; ++i){
 
-    worldSpacePoints[i].x = modelSpacePoints[i].x + xOffset;
-    worldSpacePoints[i].y = modelSpacePoints[i].y + yOffset;
+    worldSpace[i].x = modelSpace[i].x + xOffset;
+    worldSpace[i].y = modelSpace[i].y + yOffset;
   }
 }
 
@@ -36,14 +53,12 @@ void MeshRenderComponent::Rotate(){
   float rotationDelta = transform.zAxisAngle-currentZAxisAngle;
   currentZAxisAngle += rotationDelta;
 
-  std::cout << "Angle = " << currentZAxisAngle << "\n";
+  mathfu::Quaternion<float> quaternion = mathfu::Quaternion<float>::FromEulerAngles(mathfu::Vector<float, 3>(0, 0, rotationDelta));
 
-    for(int i = 0; i < numVertices; ++i){
-        mathfu::Vector<float, 3> vector(modelSpacePoints[i].x, modelSpacePoints[i].y, 0.0f);
-        mathfu::Quaternion<float> quaternion = mathfu::Quaternion<float>::FromEulerAngles(mathfu::Vector<float, 3>(0, 0, rotationDelta));//::FromAngleAxis(rotationDelta, rotationAxis);
-        mathfu::Vector<float, 3> rotated_vector = quaternion * vector;
+  for(int i = 0; i < numVertices; ++i){
+      modelSpace[i] = quaternion * modelSpace[i];
+  }
 
-        modelSpacePoints[i].x = rotated_vector[0];
-        modelSpacePoints[i].y = rotated_vector[1];
-    }
+  transform.forward = quaternion * transform.forward;
+  transform.forward.Normalize();
 }

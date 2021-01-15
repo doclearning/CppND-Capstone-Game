@@ -16,19 +16,17 @@ void DefaultInputComponent::Update(){
 void DefaultInputComponent::Notified(const SDL_Keycode &notification){
 
   std::cout << "Observer: ";
-
-  mathfu::Vector<float, 2> tempFactor(10, 10);
+  float tempFactor = 5;
 
   switch (notification) {
     case SDLK_UP:
       std::cout << "Up\n";
-
-      transform.position += -mathfu::kAxisY2f*tempFactor;
+      transform.position += transform.forward * tempFactor;
       break;
 
     case SDLK_DOWN:
       std::cout << "Down\n";
-      transform.position += mathfu::kAxisY2f*tempFactor;
+      transform.position -= transform.forward * tempFactor;
       break;
 
     case SDLK_LEFT:

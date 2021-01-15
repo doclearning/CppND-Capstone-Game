@@ -17,26 +17,35 @@ public:
     virtual void Draw(Renderer &renderer) override;
     virtual void Update() override{};
 
-    void SetMesh(SDL_Point *pointsIn, std::size_t numVerticesIn, mathfu::Vector<int, 4> &&rgbaIn){
+    void SetMesh(std::vector<mathfu::Vector<float, 3>> &&meshIn, mathfu::Vector<int, 4> &&rgbaIn){
 
-        numVertices = numVerticesIn;
-        modelSpacePoints = pointsIn;
-        
-        worldSpacePoints = new SDL_Point[numVertices];
-        std::copy(modelSpacePoints, modelSpacePoints + numVerticesIn, worldSpacePoints);
+    
+        modelSpace = std::move(meshIn);
+        worldSpace = modelSpace;
+        meshCache = new SDL_Point[modelSpace.size()];
+        numVertices = modelSpace.size();
+
+        // worldSpacePoints = new SDL_Point[numVertices];
+        // std::copy(modelSpacePoints, modelSpacePoints + numVerticesIn, worldSpacePoints);
 
         rgba = std::move(rgbaIn); //JAQ_Query is the move necessary here, or is it automatic because it's an rvr?
 
         hasMesh = true;
     }
 
-    void Rotate();
+   
 
 private:
     void UpdateWorldSpaceMesh();
+    void UpdateMeshCache();
+    void Rotate();
 
     Transform &transform;
-    SDL_Point *modelSpacePoints;
+    
+    std::vector<mathfu::Vector<float, 3>> modelSpace {};
+    std::vector<mathfu::Vector<float, 3>> worldSpace {};
+    SDL_Point *meshCache;
+
     std::size_t numVertices;
     bool hasMesh = false;
 
@@ -44,7 +53,7 @@ private:
     const mathfu::Vector<float, 3> rotationAxis;
     float currentZAxisAngle = 0;
 
-    SDL_Point *worldSpacePoints;
+    //SDL_Point *worldSpacePoints;
 };
 
 #endif

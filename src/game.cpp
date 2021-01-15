@@ -2,16 +2,8 @@
 #include <iostream>
 #include "SDL.h"
 #include "mathfu/vector.h"
+#include "mathfu/glsl_mappings.h"
 #include "meshRenderComponent.h"
-
-#define POINTS_COUNT 5
-static SDL_Point testMesh[POINTS_COUNT] = {
-    {-8, 8},
-    {0, -16},
-    {8, 8},
-    {0, 0},
-    {-8, 8}
-};
 
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
 }
@@ -28,17 +20,23 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   auto &controller = Controller::instance();
 
   //JAQ_Todo Randomise this at the top of the screen
-  auto shipSpawn = mathfu::Vector<float, 2>(screenWidth/2, screenHeight/2);
+  auto shipSpawn = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
 
   auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawn));
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultInputComponent>();
   auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
+
+  std::vector<mathfu::Vector<float, 3>> meshModel {
+    mathfu::vec3{-8, 8, 0},
+    mathfu::vec3{0, -16, 0},
+    mathfu::vec3{8, 8, 0},
+    mathfu::vec3{0, 0, 0},
+    mathfu::vec3{-8, 8, 0}
+  };
   
-  shipRenderComponent->SetMesh(testMesh, POINTS_COUNT, mathfu::Vector<int, 4>(0, 255, 0, 255));
-
-
+  shipRenderComponent->SetMesh(std::move(meshModel), mathfu::Vector<int, 4>(0, 255, 0, 255));
   
 
   while (running) {

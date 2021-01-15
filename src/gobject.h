@@ -26,7 +26,7 @@ public:
     }
 
     //JAQ_Query do I need to std::move the arguments here
-    GObject(std::string &&nameIn, mathfu::Vector<float, 2> &&positionIn) : name(nameIn), transform(positionIn){
+    GObject(std::string &&nameIn, mathfu::Vector<float, 3> &&positionIn) : name(nameIn), transform(positionIn){
 
         std::cout << "Spawning " << name << " at " << transform.position[0] << ", " << transform.position[1] << "\n";
     }

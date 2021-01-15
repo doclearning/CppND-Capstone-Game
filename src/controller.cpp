@@ -13,6 +13,22 @@ void Controller::HandleInput(bool &running) {
       Notify(e.key.keysym.sym);
     }
   }
+
+  // SDL_Event e;
+  // while (SDL_PollEvent(&e)) {
+
+  //   if (e.type == SDL_QUIT) {
+  //     running = false;
+  //   }
+
+  //   const Uint8 *state = SDL_GetKeyboardState(NULL);
+  //   if (state[SDL_SCANCODE_LEFT]) {
+  //       printf("<lEFT> is pressed.\n");
+  //   }
+  //   if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+  //       printf("Right and Up Keys Pressed.\n");
+  //   }
+  // }
 }
 
 void Controller::Attach(IObserver<SDL_Keycode> *observer) {
