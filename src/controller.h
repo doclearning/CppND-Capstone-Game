@@ -7,21 +7,21 @@
 #include "observer.h"
 #include "singleton.h"
 
-class Controller : public Singleton<Controller>, public ISubject<SDL_Keycode> {
+class Controller : public Singleton<Controller>, public ISubject<Uint8> {
  public:
   Controller(token) { std::cout << "Controller constructed" << std::endl; }
 
   void HandleInput(bool &running);
 
-  void Attach(IObserver<SDL_Keycode> *observer) override;
-  void Detach(IObserver<SDL_Keycode> *observer) override;
-  void Notify(SDL_Keycode) override;
+  void Attach(IObserver<Uint8> *observer) override;
+  void Detach(IObserver<Uint8> *observer) override;
+  void Notify(const Uint8 *state) override;
 
   ~Controller() {  std::cout << "Controller destructed" << std::endl; }
 
 
  private:
-  std::list<IObserver<SDL_Keycode> *> list_observer_;
+  std::list<IObserver<Uint8> *> list_observer_;
 };
 
 #endif

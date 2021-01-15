@@ -4,41 +4,26 @@
 #include "SDL.h"
 
 void Controller::HandleInput(bool &running) {
+
+  const Uint8 *state = SDL_GetKeyboardState(NULL);
+  Notify(state);
+
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
       running = false;
-    } else if (e.type == SDL_KEYDOWN) {
-
-      Notify(e.key.keysym.sym);
     }
   }
-
-  // SDL_Event e;
-  // while (SDL_PollEvent(&e)) {
-
-  //   if (e.type == SDL_QUIT) {
-  //     running = false;
-  //   }
-
-  //   const Uint8 *state = SDL_GetKeyboardState(NULL);
-  //   if (state[SDL_SCANCODE_LEFT]) {
-  //       printf("<lEFT> is pressed.\n");
-  //   }
-  //   if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
-  //       printf("Right and Up Keys Pressed.\n");
-  //   }
-  // }
 }
 
-void Controller::Attach(IObserver<SDL_Keycode> *observer) {
+void Controller::Attach(IObserver<Uint8> *observer) {
   list_observer_.push_back(observer);
 }
-void Controller::Detach(IObserver<SDL_Keycode> *observer) {
+void Controller::Detach(IObserver<Uint8> *observer) {
   list_observer_.remove(observer);
 }
-void Controller::Notify(SDL_Keycode keycode) {
-  std::list<IObserver<SDL_Keycode> *>::iterator iterator = list_observer_.begin();
+void Controller::Notify(const Uint8 *keycode) {
+  std::list<IObserver<Uint8> *>::iterator iterator = list_observer_.begin();
   while (iterator != list_observer_.end()) {
     (*iterator)->Notified(keycode);
     ++iterator;

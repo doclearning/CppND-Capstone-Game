@@ -10,7 +10,7 @@
 #include "defaultRenderComponent.h"
 #include "transform.h"
  
-//I really don't understand why this is needed
+//JAQ_Issues Really need to better understand forward declaration
 class DefaultRenderComponent;
 class IComponent;
 
@@ -33,7 +33,7 @@ public:
 
     //Templated method prevents me having to pass gobject.transform as a parameter to the IComponent object
     //The pointer is copied on the return to allow for setup of the object in the calling function
-    //Quite neat, though means you can't use the constructor. Well, maybe there's a clever way to template that actually
+    //JAQ_Issue Quite neat, though means you can't use the constructor. Possibly add variadic templactes/parameter packing
     template <typename T>
     std::shared_ptr<T> AddComponent(){
         std::shared_ptr<T> addedComponent = std::make_shared<T>(transform);
@@ -42,18 +42,16 @@ public:
         return addedComponent;
     }
 
+    //JAQ_Todo Implement these
     // template<typename T>
     // std::shared_ptr<T> GetComponent(){
-
     // }
 
     //Not sure how to specifiy the component
-    //void RemoveComponent(IComponent component){
-
-        //JAQ_Todo: 
-            //Remove from list
-            //Deregister it from things if required
-            //Destroy component
+    //void RemoveComponent(IComponent component){ 
+        //Remove from list
+        //Deregister it from things if required
+        //Destroy component
     //}
     
     std::string name;

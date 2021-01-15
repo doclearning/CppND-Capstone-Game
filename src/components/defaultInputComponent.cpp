@@ -13,33 +13,35 @@ DefaultInputComponent::DefaultInputComponent(Transform &transformIn) : transform
 void DefaultInputComponent::Update(){
 }
 
-void DefaultInputComponent::Notified(const SDL_Keycode &notification){
+void DefaultInputComponent::Notified(const Uint8 *state){
 
-  std::cout << "Observer: ";
+  //JAQ_TODO Make member variables
   float tempFactor = 5;
 
-  switch (notification) {
-    case SDLK_UP:
-      std::cout << "Up\n";
-      transform.position += transform.forward * tempFactor;
-      break;
+  int count = 0;
 
-    case SDLK_DOWN:
-      std::cout << "Down\n";
-      transform.position -= transform.forward * tempFactor;
-      break;
-
-    case SDLK_LEFT:
-      std::cout << "Left\n";
-      transform.zAxisAngle -= 0.0872665;
-      break;
-
-    case SDLK_RIGHT:
-      std::cout << "Right\n";
-      transform.zAxisAngle += 0.0872665;
-      break;
-
+  if (state[SDL_SCANCODE_A]) {
+    count++;
+    transform.zAxisAngle -= 0.0872665;
   }
+
+  if (state[SDL_SCANCODE_D]) {
+    count++;
+    transform.zAxisAngle += 0.0872665;
+  }
+
+  if (state[SDL_SCANCODE_W]) {
+    count++;
+    transform.position += transform.forward * tempFactor;
+  }
+  
+  if (state[SDL_SCANCODE_S]) {
+    count++;
+    transform.position -= transform.forward * tempFactor;
+  }
+
+  if(count > 0)
+    std::cout << "\n";
 }
 
 DefaultInputComponent::~DefaultInputComponent(){

@@ -25,17 +25,12 @@ class Game {
 
   void Update();
 
-  //Ship ship;
-
   std::vector<std::shared_ptr<GObject>> gameObjects {};
 
   std::size_t screenWidth; 
   std::size_t screenHeight;
 
   int score{0};
-
-  //Ship ship;
-  //Controller controller {};
 };
 
 #endif

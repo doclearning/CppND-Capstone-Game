@@ -9,14 +9,14 @@
 
 class Renderer;
 
-class DefaultInputComponent : public IComponent, public IObserver<SDL_Keycode> {
+class DefaultInputComponent : public IComponent, public IObserver<Uint8> {
 
 public:
     DefaultInputComponent(Transform &transformIn);
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update() override;
 
-    void Notified(const SDL_Keycode &notification) override;
+    void Notified(const Uint8 *notification) override;
 
     ~DefaultInputComponent();
 

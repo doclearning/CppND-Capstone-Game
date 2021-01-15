@@ -18,13 +18,10 @@ void MeshRenderComponent::Draw(Renderer &renderer) {
 
   SDL_RenderDrawLines(renderer.GetRenderContext(), meshCache, numVertices);
 
-  SDL_SetRenderDrawColor(renderer.GetRenderContext(), 255, 0, 0, rgba[3]);
-
-  int worldX = static_cast<int>(transform.position[0]);
-  int worldY = static_cast<int>(transform.position[1]);
-
-
-  SDL_RenderDrawLine(renderer.GetRenderContext(), worldX, worldY, worldX+(transform.forward[0]*20), worldY+(transform.forward[1]*20));
+  // SDL_SetRenderDrawColor(renderer.GetRenderContext(), 255, 0, 0, rgba[3]);
+  // int worldX = static_cast<int>(transform.position[0]);
+  // int worldY = static_cast<int>(transform.position[1]);
+  // SDL_RenderDrawLine(renderer.GetRenderContext(), worldX, worldY, worldX+(transform.forward[0]*20), worldY+(transform.forward[1]*20));
 }
 
 void MeshRenderComponent::UpdateMeshCache(){
@@ -39,7 +36,7 @@ void MeshRenderComponent::UpdateWorldSpaceMesh(){
   int xOffset = static_cast<int>(transform.position[0]);
   int yOffset = static_cast<int>(transform.position[1]);
 
-  //JAQ_Todo probably convert transform.position to a 3vec, and just add here
+  //JAQ_Todo Probably should add vectors here, but would then make more allocations
   for(int i = 0; i < numVertices; ++i){
 
     worldSpace[i].x = modelSpace[i].x + xOffset;

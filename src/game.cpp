@@ -35,14 +35,13 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     mathfu::vec3{0, 0, 0},
     mathfu::vec3{-8, 8, 0}
   };
-  
+  //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
   shipRenderComponent->SetMesh(std::move(meshModel), mathfu::Vector<int, 4>(0, 255, 0, 255));
   
-
+  //Core loop
   while (running) {
     frame_start = SDL_GetTicks();
 
-    // Input, Update, Render - the main game loop.
     controller.HandleInput(running);
     Update();
 
@@ -55,6 +54,12 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
       }
     }
     renderer.FrameEnd();
+
+  //JAQ_Todo Improve all this frame-timing stuff. It's not good. 
+  //Unlock framerate
+  //Use delta times for translations etc, put in singleton, and use for all frame-dependent calculations
+  //Separate thread for rendering, gameplay, physics
+
 
     frame_end = SDL_GetTicks();
 
