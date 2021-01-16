@@ -5,6 +5,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "meshRenderComponent.h"
 #include "physicsEntityComponent.h"
+#include "transform.h"
 
 //JAQ_Todo read this from a file
 static std::vector<mathfu::Vector<float, 3>> meshModel {
@@ -40,12 +41,15 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultInputComponent>();
+
+  //JAQ_Todo Temporary
+  //float world_scale = 0.00000001f;
   
   auto shipPhysicsComponent = ship->AddComponent<PhysicsEntityComponent>();
-  shipPhysicsComponent->SetMass(2.0);
-  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(0.00003, 0.00004, 0.0));
-  shipPhysicsComponent->SetAcceleration(mathfu::Vector<float, 3>(0.0, 1.0, 0.0));
-  shipPhysicsComponent->SetDamping(0.99);
+  shipPhysicsComponent->SetMass(50.0);
+  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(10.0, 0.0, 0.0));
+  shipPhysicsComponent->SetAcceleration(mathfu::Vector<float, 3>(0.0, 10.0, 0.0));
+  shipPhysicsComponent->SetDamping(0.99f);
   shipPhysicsComponent->ClearAccumulator();
 
   //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
@@ -84,7 +88,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     }
 
     frame_end = SDL_GetTicks();
-    deltaTime = static_cast<float>(frame_start-frame_end)/1000.0;
+    deltaTime = static_cast<float>(frame_end-frame_start)*0.001f;
   }
 }
 

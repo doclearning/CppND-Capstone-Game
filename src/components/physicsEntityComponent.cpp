@@ -18,15 +18,13 @@ void PhysicsEntityComponent::Step(float deltaTime){
     if(deltaTime <= 0.0)
         return;
 
-    //std::cout << "Physics tick for " << deltaTime << "seconds.\n";
-
     //Linear velocity
     transform.position += velocity * deltaTime;
 
     //Acceleration
     mathfu::vec3 resultingAcceleration = acceleration;
     resultingAcceleration += forceAccumulation * inverseMass;
-
+    
     //Linear velocity from acceleration
     velocity += resultingAcceleration * deltaTime;
 
