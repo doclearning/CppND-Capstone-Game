@@ -4,6 +4,16 @@
 #include "mathfu/vector.h"
 #include "mathfu/glsl_mappings.h"
 #include "meshRenderComponent.h"
+#include "physicsEntityComponent.h"
+
+//JAQ_Todo read this from a file
+static std::vector<mathfu::Vector<float, 3>> meshModel {
+  mathfu::vec3{-8, 8, 0},
+  mathfu::vec3{0, -16, 0},
+  mathfu::vec3{8, 8, 0},
+  mathfu::vec3{0, 0, 0},
+  mathfu::vec3{-8, 8, 0}
+};
 
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
 }
@@ -12,8 +22,12 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
+  Uint32 frame_work_done_end;
   Uint32 frame_end;
-  Uint32 frame_duration;
+  Uint32 frame_work_done_duration;
+
+  float deltaTime = 0;
+
   int frame_count = 0;
   bool running = true;
 
@@ -26,17 +40,17 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultInputComponent>();
-  auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
+  
+  auto shipPhysicsComponent = ship->AddComponent<PhysicsEntityComponent>();
+  shipPhysicsComponent->SetMass(2.0);
+  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(0.00003, 0.00004, 0.0));
+  shipPhysicsComponent->SetAcceleration(mathfu::Vector<float, 3>(0.0, 1.0, 0.0));
+  shipPhysicsComponent->SetDamping(0.99);
+  shipPhysicsComponent->ClearAccumulator();
 
-  std::vector<mathfu::Vector<float, 3>> meshModel {
-    mathfu::vec3{-8, 8, 0},
-    mathfu::vec3{0, -16, 0},
-    mathfu::vec3{8, 8, 0},
-    mathfu::vec3{0, 0, 0},
-    mathfu::vec3{-8, 8, 0}
-  };
   //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
-  shipRenderComponent->SetMesh(std::move(meshModel), mathfu::Vector<int, 4>(0, 255, 0, 255));
+  auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
+  shipRenderComponent->SetMesh(meshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
   
   //Core loop
   while (running) {
@@ -44,7 +58,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
     controller.HandleInput(running);
     
-    Update();
+    Update(deltaTime);
 
     renderer.FrameBegin();
     for(auto &gobject : gameObjects){
@@ -56,16 +70,38 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     }
     renderer.FrameEnd();
 
-  //JAQ_Todo Improve all this frame-timing stuff. It's not good. 
-  //Unlock framerate
-  //Use delta times for translations etc, put in singleton, and use for all frame-dependent calculations
-  //Separate thread for rendering, gameplay, physics
-    frame_end = SDL_GetTicks();
+    //JAQ_Todo Improve all this frame-timing stuff. It's not good. 
+    //Unlock framerate
+    //Use delta times for translations etc, put in singleton, and use for all frame-dependent calculations
+    //Separate thread for rendering, gameplay, physics
+    frame_work_done_end = SDL_GetTicks();
+    frame_work_done_duration = frame_work_done_end - frame_start;
+    
 
-    // Keep track of how long each loop through the input/update/render cycle
+    //Delay to hit target framerate
+    if (frame_work_done_duration < target_frame_duration) {
+      SDL_Delay(target_frame_duration - frame_work_done_duration);
+    }
+
+    frame_end = SDL_GetTicks();
+    deltaTime = static_cast<float>(frame_start-frame_end)/1000.0;
+  }
+}
+
+void Game::Update(float deltaTime) {
+  //if (!ship.alive) return;
+
+  for(auto &gobject : gameObjects){
+
+    gobject->Update(deltaTime);
+  }
+
+}
+
+void Game::UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32 frame_duration, Uint32 frame_end, Uint32 frame_start, Uint32 title_timestamp){
+// Keep track of how long each loop through the input/update/render cycle
     // takes.
     frame_count++;
-    frame_duration = frame_end - frame_start;
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
@@ -73,24 +109,6 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
       frame_count = 0;
       title_timestamp = frame_end;
     }
-
-    // If the time for this frame is too small (i.e. frame_duration is
-    // smaller than the target ms_per_frame), delay the loop to
-    // achieve the correct frame rate.
-    if (frame_duration < target_frame_duration) {
-      SDL_Delay(target_frame_duration - frame_duration);
-    }
-  }
-}
-
-void Game::Update() {
-  //if (!ship.alive) return;
-
-  for(auto &gobject : gameObjects){
-
-    gobject->Update();
-  }
-
 }
 
 int Game::GetScore() const { return score; }

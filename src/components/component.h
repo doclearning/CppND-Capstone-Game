@@ -11,7 +11,7 @@ class IComponent {
  public:
   virtual ~IComponent(){};
   virtual void Draw(Renderer &renderer) = 0;
-  virtual void Update() = 0;
+  virtual void Update(float deltaTime) = 0;
 };
 
 #endif

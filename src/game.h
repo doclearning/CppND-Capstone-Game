@@ -23,7 +23,8 @@ class Game {
 
  private:
 
-  void Update();
+  void Update(float deltaTime);
+  void UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32 frame_duration, Uint32 frame_end, Uint32 frame_start, Uint32 title_timestamp);
 
   std::vector<std::shared_ptr<GObject>> gameObjects {};
 

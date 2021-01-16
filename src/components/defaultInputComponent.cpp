@@ -10,8 +10,7 @@ DefaultInputComponent::DefaultInputComponent(Transform &transformIn) : transform
     controller.Attach(this);
 }
 
-void DefaultInputComponent::Update(){
-}
+void DefaultInputComponent::Update(float deltaTime){}
 
 void DefaultInputComponent::Notified(const Uint8 *state){
 
@@ -40,8 +39,8 @@ void DefaultInputComponent::Notified(const Uint8 *state){
     transform.position -= transform.forward * tempFactor;
   }
 
-  if(count > 0)
-    std::cout << "\n";
+  // if(count > 0)
+  //   std::cout << "\n";
 }
 
 DefaultInputComponent::~DefaultInputComponent(){

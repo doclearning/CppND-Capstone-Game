@@ -12,7 +12,7 @@ class DefaultInputComponent : public IComponent, public IObserver<Uint8> {
 public:
     DefaultInputComponent(Transform &transformIn);
     virtual void Draw(Renderer &renderer) override{};
-    virtual void Update() override;
+    virtual void Update(float deltaTime) override;
 
     void Notified(const Uint8 *notification) override;
 

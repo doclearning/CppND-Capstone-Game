@@ -9,13 +9,13 @@ Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GOb
   std::cout << "Ship created\n";
 }
 
-void Ship::Update() {
+void Ship::Update(float deltaTime) {
   //JAQ_Todo decide whether to do wrapping, and if it should be done here
   //Wrap the Snake around to the beginning if going off of the screen.
   //head_x = fmod(head_x + grid_width, grid_width);
   //head_y = fmod(head_y + grid_height, grid_height);
 
   //std::cout << "Ship update\n";
-  GObject::Update();
+  GObject::Update(deltaTime);
 }
 

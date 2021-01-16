@@ -15,7 +15,7 @@ class Ship : public GObject {
 
   Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition);
 
-  void Update();
+  void Update(float deltaTime) override;
   
   float speed{1.0};
   bool alive{true};

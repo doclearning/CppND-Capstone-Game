@@ -13,7 +13,7 @@ class DefaultRenderComponent : public IComponent {
 public:
     DefaultRenderComponent(Transform &transformIn) : transform(transformIn){};
     virtual void Draw(Renderer &renderer) override;
-    virtual void Update() override{};
+    virtual void Update(float deltaTime) override{};
     
 
 private:

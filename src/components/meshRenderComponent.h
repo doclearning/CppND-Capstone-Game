@@ -15,9 +15,9 @@ class MeshRenderComponent : public IComponent {
 public:
     MeshRenderComponent(Transform &transformIn) : transform(transformIn), rotationAxis(0.0, 0.0, 1.0){};
     virtual void Draw(Renderer &renderer) override;
-    virtual void Update() override{};
+    virtual void Update(float deltaTime) override{};
 
-    void SetMesh(std::vector<mathfu::Vector<float, 3>> &&meshIn, mathfu::Vector<int, 4> &&rgbaIn){
+    void SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
 
     
         modelSpace = std::move(meshIn);

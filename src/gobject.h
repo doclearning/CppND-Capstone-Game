@@ -17,10 +17,10 @@ class IComponent;
 class GObject {
 
 public: 
-    virtual void Update(){
+    virtual void Update(float deltaTime){
 
       for(auto &component : components){
-        component->Update();
+        component->Update(deltaTime);
       }
 
     }

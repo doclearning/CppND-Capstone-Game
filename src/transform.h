@@ -12,6 +12,13 @@ struct Transform {
     mathfu::Vector<float, 3> position;
     float zAxisAngle = 0;
     mathfu::Vector<float, 3> forward;
+
+    ///Physics utility methods
+
+    // inline void AddScaledVector(mathfu::Vector<float, 3> &vector, float scalar){
+
+    //     position = vector * scalar;
+    // }
 };
 
 #endif
