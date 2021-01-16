@@ -2,6 +2,8 @@
 #include <iostream>
 
 
+DefaultRenderComponent::DefaultRenderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){};
+
 void DefaultRenderComponent::Draw(Renderer &renderer) {
 
 

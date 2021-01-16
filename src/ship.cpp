@@ -18,4 +18,3 @@ void Ship::Update(float deltaTime) {
   //std::cout << "Ship update\n";
   GObject::Update(deltaTime);
 }
-

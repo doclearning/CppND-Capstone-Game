@@ -4,12 +4,22 @@
 #include "mathfu/constants.h"
 
 //Uses the Controller singleton to attach to it as an IObserver
-PhysicsEntityComponent::PhysicsEntityComponent(Transform &transformIn) : transform(transformIn){
+PhysicsEntityComponent::PhysicsEntityComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){
 
 }
 
 void PhysicsEntityComponent::Update(float deltaTime){
+
+    auto temp = gobject.accruedForce;
+    
+    AddForce(temp);
     Step(deltaTime);
+
+    if(temp == mathfu::kZeros3f) {
+        ClearAccumulator();
+    }else{
+        gobject.accruedForce = mathfu::kZeros3f;
+    }
 }
 
 //All calculations over delta time
@@ -32,7 +42,7 @@ void PhysicsEntityComponent::Step(float deltaTime){
     velocity *= std::pow(damping, deltaTime);
 }
 
-void PhysicsEntityComponent::AddForce(mathfu::vec3 forceeIn){
+void PhysicsEntityComponent::AddForce(const mathfu::vec3 &forceeIn){
     
     forceAccumulation += forceeIn;
 }

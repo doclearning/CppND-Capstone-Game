@@ -4,16 +4,22 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include <deque>
 
 #include "mathfu/vector.h"
 #include "component.h"
-#include "defaultRenderComponent.h"
 #include "transform.h"
  
 //JAQ_Issues Really need to better understand forward declaration
-class DefaultRenderComponent;
 class IComponent;
 
+//Check object is of class type
+template<typename Base, typename T>
+inline bool instanceof(const T&) {
+  return std::is_base_of<Base, T>::value;
+}
+
+//JAQ_Todo Move functions into cpp
 class GObject {
 
 public: 
@@ -36,15 +42,33 @@ public:
     //JAQ_Issue Quite neat, though means you can't use the constructor. Possibly add variadic templactes/parameter packing
     template <typename T>
     std::shared_ptr<T> AddComponent(){
-        std::shared_ptr<T> addedComponent = std::make_shared<T>(transform);
+        std::shared_ptr<T> addedComponent = std::make_shared<T>(transform, *this);
         components.push_back(addedComponent);
 
         return addedComponent;
     }
 
-    //JAQ_Todo Implement these
     // template<typename T>
     // std::shared_ptr<T> GetComponent(){
+
+    //   //JAQ_Query As this is iterating shared pointers, am I right to iterate without the reference?
+    //   for(auto component : components){
+
+    //     if(component->GetType() == )
+
+
+    //     //std::cout << typeid(*(component.get())).name() << "\n";
+    //      //auto temp = typeid(*(component.get()));
+
+    //      //if(instanceof<T>(typeid(*(component.get())))){ 
+    //     //if(typeid(*(component.get())) == typeid(*(component.get()))){
+    //      //  std::cout << "Type matching works\n";
+    //     //   return nullptr;
+    //     //}
+    //       //return static_cast<std::shared_ptr<T>>(component); 
+    //   }
+
+    //   return nullptr;
     // }
 
     //Not sure how to specifiy the component
@@ -53,6 +77,9 @@ public:
         //Deregister it from things if required
         //Destroy component
     //}
+
+    // void ForcePush(mathfu::Vector<float, 3> &&forceIn);
+    // mathfu::Vector<float, 3> ForcePull();
     
     std::string name;
     Transform transform;
@@ -61,6 +88,8 @@ public:
     //when emplace_back or similar is called
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
+
+    mathfu::Vector<float, 3> accruedForce {};
 
 private:
 

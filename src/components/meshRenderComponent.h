@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "SDL.h"
+#include "gobject.h"
 #include "component.h"
 #include "renderer.h"
 #include "mathfu/quaternion.h"
@@ -13,10 +14,15 @@ class Renderer;
 class MeshRenderComponent : public IComponent {
 
 public:
-    MeshRenderComponent(Transform &transformIn) : transform(transformIn), rotationAxis(0.0, 0.0, 1.0){};
+    MeshRenderComponent(Transform &transformIn, GObject &gobjectIn);
     virtual void Draw(Renderer &renderer) override;
     virtual void Update(float deltaTime) override{};
 
+    ComponentType GetType(){
+        return ComponentType::meshRenderComponent;
+    }
+
+    //JAQ_Todo move this to class
     void SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
 
     

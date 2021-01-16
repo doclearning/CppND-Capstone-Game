@@ -2,9 +2,10 @@
 #include <iostream>
 #include "mathfu/constants.h"
 #include "controller.h"
+#include "physicsEntityComponent.h"
 
 //Uses the Controller singleton to attach to it as an IObserver
-DefaultInputComponent::DefaultInputComponent(Transform &transformIn) : transform(transformIn){
+DefaultInputComponent::DefaultInputComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){
 
     auto &controller = Controller::instance();
     controller.Attach(this);
@@ -15,7 +16,7 @@ void DefaultInputComponent::Update(float deltaTime){}
 void DefaultInputComponent::Notified(const Uint8 *state){
 
   //JAQ_TODO Make member variables
-  float tempFactor = 5;
+  float tempFactor = 50;
 
   int count = 0;
 
@@ -31,12 +32,14 @@ void DefaultInputComponent::Notified(const Uint8 *state){
 
   if (state[SDL_SCANCODE_W]) {
     count++;
-    transform.position += transform.forward * tempFactor;
+    //transform.position += transform.forward * tempFactor;
+    gobject.accruedForce += transform.forward * tempFactor;
+      //auto physicsEntity = gobject.GetComponent<PhysicsEntityComponent>();
   }
   
   if (state[SDL_SCANCODE_S]) {
     count++;
-    transform.position -= transform.forward * tempFactor;
+    //transform.position -= transform.forward * tempFactor;
   }
 
   // if(count > 0)

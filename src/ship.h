@@ -2,6 +2,7 @@
 #define SHIP_H
 
 #include <vector>
+#include <deque>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "mathfu/vector.h"
@@ -19,6 +20,9 @@ class Ship : public GObject {
   
   float speed{1.0};
   bool alive{true};
+
+private:
+  
 
 };
 

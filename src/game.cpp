@@ -47,7 +47,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   
   auto shipPhysicsComponent = ship->AddComponent<PhysicsEntityComponent>();
   shipPhysicsComponent->SetMass(50.0);
-  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(10.0, 0.0, 0.0));
+  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(0.0, 0.0, 0.0));
   shipPhysicsComponent->SetAcceleration(mathfu::Vector<float, 3>(0.0, 10.0, 0.0));
   shipPhysicsComponent->SetDamping(0.99f);
   shipPhysicsComponent->ClearAccumulator();

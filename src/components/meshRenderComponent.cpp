@@ -1,5 +1,7 @@
 #include "meshRenderComponent.h"
 
+MeshRenderComponent::MeshRenderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), rotationAxis(0.0, 0.0, 1.0){};
+
 void MeshRenderComponent::Draw(Renderer &renderer) {
 
   if(!hasMesh)

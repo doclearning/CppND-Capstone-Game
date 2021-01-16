@@ -2,6 +2,7 @@
 #define PHYSICS_ENTITY_COMPONENT_H
 
 #include "SDL.h"
+#include "gobject.h"
 #include "component.h"
 #include "mathfu/vector.h"
 #include "mathfu/glsl_mappings.h"
@@ -11,10 +12,13 @@ class Renderer;
 class PhysicsEntityComponent : public IComponent {
 
 public:
-    PhysicsEntityComponent(Transform &transformIn);
+    PhysicsEntityComponent(Transform &transformIn, GObject &gobjectIn);
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update(float deltaTime) override;
 
+    ComponentType GetType(){
+        return ComponentType::physicsEntityComponent;
+    }
 
     void SetMass(float mass);
 
@@ -24,7 +28,7 @@ public:
     void SetDamping(float dampingIn);
     
     
-    void AddForce(mathfu::vec3 force);
+    void AddForce(const mathfu::vec3 &forceIn);
 
     void ClearAccumulator();
 
@@ -35,6 +39,7 @@ private:
     void Step(float duration);
 
     Transform &transform;
+    GObject &gobject;
 
     mathfu::vec3 velocity {};
     mathfu::vec3 acceleration {};
