@@ -3,20 +3,18 @@
 
 #include "SDL.h"
 #include "component.h"
-#include "observer.h"
 
 class Renderer;
 
-class DefaultInputComponent : public IComponent, public IObserver<Uint8> {
+class PhysicsComponent : public IComponent {
 
 public:
-    DefaultInputComponent(Transform &transformIn);
+    PhysicsComponent(Transform &transformIn);
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update() override;
 
-    void Notified(const Uint8 *notification) override;
 
-    ~DefaultInputComponent();
+    ~PhysicsComponent();
 
 private:
     Transform &transform;

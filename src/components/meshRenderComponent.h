@@ -25,9 +25,6 @@ public:
         meshCache = new SDL_Point[modelSpace.size()];
         numVertices = modelSpace.size();
 
-        // worldSpacePoints = new SDL_Point[numVertices];
-        // std::copy(modelSpacePoints, modelSpacePoints + numVerticesIn, worldSpacePoints);
-
         rgba = std::move(rgbaIn); //JAQ_Query is the move necessary here, or is it automatic because it's an rvr?
 
         hasMesh = true;
@@ -52,8 +49,6 @@ private:
     mathfu::Vector<int, 4> rgba;
     const mathfu::Vector<float, 3> rotationAxis;
     float currentZAxisAngle = 0;
-
-    //SDL_Point *worldSpacePoints;
 };
 
 #endif

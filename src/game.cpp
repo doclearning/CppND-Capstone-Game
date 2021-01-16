@@ -43,6 +43,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     frame_start = SDL_GetTicks();
 
     controller.HandleInput(running);
+    
     Update();
 
     renderer.FrameBegin();
@@ -59,8 +60,6 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   //Unlock framerate
   //Use delta times for translations etc, put in singleton, and use for all frame-dependent calculations
   //Separate thread for rendering, gameplay, physics
-
-
     frame_end = SDL_GetTicks();
 
     // Keep track of how long each loop through the input/update/render cycle

@@ -1,8 +1,5 @@
 #include "meshRenderComponent.h"
 
-#include<algorithm>
-
-
 void MeshRenderComponent::Draw(Renderer &renderer) {
 
   if(!hasMesh)

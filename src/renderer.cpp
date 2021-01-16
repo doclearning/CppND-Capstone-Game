@@ -15,7 +15,7 @@ Renderer::Renderer(const std::size_t screen_width,
   IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
   // Create Window
-  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
+  sdl_window = SDL_CreateWindow("Lander", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
                                 screen_height, SDL_WINDOW_SHOWN);
 
@@ -46,8 +46,10 @@ void Renderer::FrameBegin(){
     
   SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 255, 255);
 
+
+  //JAQ_Todo take this out
+  //Draw Origin
   SDL_Rect box;
-  //define box attributes
   box.w = 5; 
   box.h = 5; 
   box.x = screen_width/2-3;
@@ -60,6 +62,6 @@ void Renderer::FrameEnd(){
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"Lander Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
