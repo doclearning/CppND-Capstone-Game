@@ -49,7 +49,7 @@ public:
         return addedComponent;
     }
 
-    //FIX THIS AND REMOVE THE ACCRUED FORCE BELOW.
+    //JAQ_Refactor FIX THIS AND REMOVE THE ACCRUED FORCE BELOW.
     //This is awful.
     template<typename T>
     std::shared_ptr<T> GetComponent(){
@@ -59,7 +59,7 @@ public:
       //JAQ_Query As this is iterating shared pointers, am I right to iterate without the reference?
       for(auto component : components){
         if(typeid(*(component.get())).name() == componentName)
-          return component;
+          return std::dynamic_pointer_cast<T>(component);
       }
 
       return nullptr;
@@ -82,9 +82,6 @@ public:
     //when emplace_back or similar is called
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
-
-    //This is really bad, but I couldn't figure out how to return the type properly
-    mathfu::Vector<float, 3> accruedForce {};
 
 private:
   //std::unordered_map<typeid, std::shared_ptr<IComponent>> componentMap {};

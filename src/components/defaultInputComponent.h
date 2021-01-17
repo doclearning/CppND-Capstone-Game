@@ -5,9 +5,11 @@
 #include "gobject.h"
 #include "component.h"
 #include "observer.h"
+#include "physicsEntityComponent.h"
 
 class Renderer;
 
+//JAQ_Todo refactor this to player input component. As then it's unique.
 class DefaultInputComponent : public IComponent, public IObserver<Uint8> {
 
 public:
@@ -26,6 +28,8 @@ public:
 private:
     Transform &transform;
     GObject &gobject;
+
+    std::shared_ptr<PhysicsEntityComponent> shipPhysicsComponent;
 };
 
 #endif

@@ -28,7 +28,8 @@ public:
     void SetDamping(float dampingIn);
     
     
-    void AddForce(const mathfu::vec3 &forceIn);
+    void AddImpulse(const mathfu::vec3 &forceIn);
+    void AddAcceleration(const mathfu::vec3 &forceIn);
 
     void ClearAccumulator();
 
@@ -44,6 +45,7 @@ private:
     mathfu::vec3 velocity {};
     mathfu::vec3 acceleration {};
     mathfu::vec3 forceAccumulation {};
+    mathfu::vec3 impulseForce {};
 
     //Remove energy to reduce instability
     float damping;

@@ -10,16 +10,10 @@ PhysicsEntityComponent::PhysicsEntityComponent(Transform &transformIn, GObject &
 
 void PhysicsEntityComponent::Update(float deltaTime){
 
-    auto temp = gobject.accruedForce;
+    //auto temp = gobject.accruedForce;
     
-    AddForce(temp);
+    //AddForce(temp);
     Step(deltaTime);
-
-    if(temp == mathfu::kZeros3f) {
-        ClearAccumulator();
-    }else{
-        gobject.accruedForce = mathfu::kZeros3f;
-    }
 }
 
 //All calculations over delta time
@@ -34,7 +28,7 @@ void PhysicsEntityComponent::Step(float deltaTime){
     //Acceleration
     mathfu::vec3 resultingAcceleration = acceleration;
     resultingAcceleration += forceAccumulation * inverseMass;
-    
+
     //Linear velocity from acceleration
     velocity += resultingAcceleration * deltaTime;
 
@@ -42,9 +36,13 @@ void PhysicsEntityComponent::Step(float deltaTime){
     velocity *= std::pow(damping, deltaTime);
 }
 
-void PhysicsEntityComponent::AddForce(const mathfu::vec3 &forceeIn){
-    
-    forceAccumulation += forceeIn;
+//Not used
+void PhysicsEntityComponent::AddImpulse(const mathfu::vec3 &forceIn){
+    impulseForce += forceIn;
+}
+
+void PhysicsEntityComponent::AddAcceleration(const mathfu::vec3 &forceIn){
+    forceAccumulation += forceIn;
 }
 
 //---------------- Mutators

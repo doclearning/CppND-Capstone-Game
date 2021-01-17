@@ -9,11 +9,17 @@ DefaultInputComponent::DefaultInputComponent(Transform &transformIn, GObject &go
 
     auto &controller = Controller::instance();
     controller.Attach(this);
+
+    
 }
 
 void DefaultInputComponent::Update(float deltaTime){}
 
 void DefaultInputComponent::Notified(const Uint8 *state){
+
+  //Gross, but lazy-assign this becuase we don't know if the other component will exist in the ctor
+  if(shipPhysicsComponent == nullptr)
+    shipPhysicsComponent = gobject.GetComponent<PhysicsEntityComponent>();
 
   //JAQ_TODO Make member variables
   float tempFactor = 50;
@@ -33,8 +39,10 @@ void DefaultInputComponent::Notified(const Uint8 *state){
   if (state[SDL_SCANCODE_W]) {
     count++;
 
-    //auto entity = gobject.GetComponent<PhysicsEntityComponent>();
-    gobject.accruedForce += transform.forward * tempFactor;
+    shipPhysicsComponent->AddAcceleration(transform.forward * tempFactor);
+    //gobject.accruedForce += transform.forward * tempFactor;
+  }else{
+    shipPhysicsComponent->ClearAccumulator();
   }
   
   if (state[SDL_SCANCODE_S]) {
@@ -42,7 +50,7 @@ void DefaultInputComponent::Notified(const Uint8 *state){
     //transform.position -= transform.forward * tempFactor;
   }
 
-  // if(count > 0)
+  //if(count == 0)
   //   std::cout << "\n";
 }
 
