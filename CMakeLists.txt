@@ -14,8 +14,8 @@ INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} src src/components include)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} src src/components src/gobjects src/utils include)
 
-add_executable(LanderClone src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/ship.cpp src/components/defaultRenderComponent.cpp src/components/defaultInputComponent.cpp src/components/meshRenderComponent.cpp src/components/physicsEntityComponent.cpp)
+add_executable(LanderClone src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/gobjects/ship.cpp src/gobjects/ground.cpp src/components/defaultRenderComponent.cpp src/components/defaultInputComponent.cpp src/components/meshRenderComponent.cpp src/components/physicsEntityComponent.cpp)
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(LanderClone ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})

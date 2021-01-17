@@ -5,7 +5,6 @@
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
-#include "ship.h"
 #include "defaultInputComponent.h"
 
 class Game {

@@ -18,6 +18,7 @@ class Ship : public GObject {
 
   void Update(float deltaTime) override;
   
+  //JAQ_Todo clean up or use this
   float speed{1.0};
   bool alive{true};
 

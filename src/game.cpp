@@ -1,14 +1,18 @@
 #include "game.h"
+
 #include <iostream>
+
 #include "SDL.h"
 #include "mathfu/vector.h"
 #include "mathfu/glsl_mappings.h"
 #include "meshRenderComponent.h"
 #include "physicsEntityComponent.h"
 #include "transform.h"
+#include "ground.h"
+#include "ship.h"
 
-//JAQ_Todo read this from a file
-static std::vector<mathfu::Vector<float, 3>> meshModel {
+//JAQ_Todo read these from a file
+static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
   mathfu::vec3{-8, 8, 0},
   mathfu::vec3{0, -16, 0},
   mathfu::vec3{8, 8, 0},
@@ -34,16 +38,22 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
   auto &controller = Controller::instance();
 
-  //JAQ_Todo Randomise this at the top of the screen
-  auto shipSpawn = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
+  //JAQ_Todo eventually have variable ground
+  auto groundspawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight-10, 0);
+  auto ground = std::make_shared<Ground>("Ground", std::move(groundspawnPosition));
+  gameObjects.push_back(ground);
 
-  auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawn));
+  auto groundRenderComponent = ground->AddComponent<MeshRenderComponent>();
+  
+  auto groundMeshModel = std::vector<mathfu::Vector<float, 3>> {{-static_cast<float>(screenWidth/2), 0.0, 0.0}, {static_cast<float>(screenWidth/2), 0.0, 0.0}};
+  groundRenderComponent->SetMesh(groundMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
+
+  //JAQ_Todo Randomise this at the top of the screen
+  auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
+  auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawnPosition));
   gameObjects.push_back(ship);
 
   ship->AddComponent<DefaultInputComponent>();
-
-  //JAQ_Todo Temporary
-  //float world_scale = 0.00000001f;
   
   auto shipPhysicsComponent = ship->AddComponent<PhysicsEntityComponent>();
   shipPhysicsComponent->SetMass(50.0);
@@ -54,7 +64,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
   //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
   auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
-  shipRenderComponent->SetMesh(meshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
+  shipRenderComponent->SetMesh(shipMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
   
   //Core loop
   while (running) {
