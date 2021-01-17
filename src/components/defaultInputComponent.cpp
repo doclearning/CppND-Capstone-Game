@@ -32,9 +32,9 @@ void DefaultInputComponent::Notified(const Uint8 *state){
 
   if (state[SDL_SCANCODE_W]) {
     count++;
-    //transform.position += transform.forward * tempFactor;
+
+    //auto entity = gobject.GetComponent<PhysicsEntityComponent>();
     gobject.accruedForce += transform.forward * tempFactor;
-      //auto physicsEntity = gobject.GetComponent<PhysicsEntityComponent>();
   }
   
   if (state[SDL_SCANCODE_S]) {

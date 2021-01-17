@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <deque>
+#include <unordered_map>
 
 #include "mathfu/vector.h"
 #include "component.h"
@@ -48,28 +49,21 @@ public:
         return addedComponent;
     }
 
-    // template<typename T>
-    // std::shared_ptr<T> GetComponent(){
+    //FIX THIS AND REMOVE THE ACCRUED FORCE BELOW.
+    //This is awful.
+    template<typename T>
+    std::shared_ptr<T> GetComponent(){
 
-    //   //JAQ_Query As this is iterating shared pointers, am I right to iterate without the reference?
-    //   for(auto component : components){
+      auto componentName = typeid(T(transform, *this)).name();
 
-    //     if(component->GetType() == )
+      //JAQ_Query As this is iterating shared pointers, am I right to iterate without the reference?
+      for(auto component : components){
+        if(typeid(*(component.get())).name() == componentName)
+          return component;
+      }
 
-
-    //     //std::cout << typeid(*(component.get())).name() << "\n";
-    //      //auto temp = typeid(*(component.get()));
-
-    //      //if(instanceof<T>(typeid(*(component.get())))){ 
-    //     //if(typeid(*(component.get())) == typeid(*(component.get()))){
-    //      //  std::cout << "Type matching works\n";
-    //     //   return nullptr;
-    //     //}
-    //       //return static_cast<std::shared_ptr<T>>(component); 
-    //   }
-
-    //   return nullptr;
-    // }
+      return nullptr;
+    }
 
     //Not sure how to specifiy the component
     //void RemoveComponent(IComponent component){ 
@@ -89,10 +83,11 @@ public:
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
 
+    //This is really bad, but I couldn't figure out how to return the type properly
     mathfu::Vector<float, 3> accruedForce {};
 
 private:
-
+  //std::unordered_map<typeid, std::shared_ptr<IComponent>> componentMap {};
 };
 
 #endif
