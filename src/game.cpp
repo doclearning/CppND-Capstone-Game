@@ -47,10 +47,10 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   auto ground = std::make_shared<Ground>("Ground", std::move(groundSpawnPosition), screenWidth, screenHeight);
   gameObjects.push_back(ground);
 
-  float randomPadWidth = std::uniform_int_distribution<int>(25, 40)(randomEngine);
+  float randomPadWidth = std::uniform_int_distribution<int>(25, 100)(randomEngine);
   float randomPadHeight = std::uniform_int_distribution<int>(10, 25)(randomEngine);
 
-  auto padYPosition = (randomPadHeight/2+groundSpawnPosition.y-groundOffset*3);
+  auto padYPosition = (groundSpawnPosition.y-randomPadHeight/2);
   auto padSpawnPosition = mathfu::Vector<float, 3>(std::uniform_int_distribution<int>(30.0, screenWidth-30)(randomEngine), padYPosition, 0);
   //auto padSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2+100, 0);
   auto pad = std::make_shared<Pad>("Pad", std::move(padSpawnPosition), randomPadWidth, randomPadHeight);

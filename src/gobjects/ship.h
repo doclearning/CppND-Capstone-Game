@@ -26,9 +26,16 @@ class Ship : public GObject, public IObserver<Collision>  {
   float speed{1.0};
   bool alive{true};
 
+
   GobjectType GetType() override {return GobjectType::ship;}
 
 private:
+  void RemoveCollisionHandler();
+  void RemoveInputHandler();
+  void CleanUp();
+  
+  bool shipCrashed;
+  bool cleanedUp;
 
 };
 

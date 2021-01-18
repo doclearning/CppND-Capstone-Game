@@ -10,6 +10,7 @@
 #include "meshRenderComponent.h"
 #include "physicsEntityComponent.h"
 #include "defaultInputComponent.h"
+#include "controller.h"
 
 //JAQ_Todo read these from a file
 static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
@@ -20,7 +21,7 @@ static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
   mathfu::vec3{-8, 8, 0}
 };
 
-Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)){
+Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)), shipCrashed(false), cleanedUp(false){
 
   std::cout << "Ship created\n";
 
@@ -48,6 +49,18 @@ Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GOb
 
 void Ship::Update(float deltaTime) {
   GObject::Update(deltaTime);
+
+  //Not really clean, but need to remove this here rather than in notified, as we can't remove those observers during the notify
+  if(shipCrashed && !cleanedUp)
+    CleanUp();
+}
+
+void Ship::CleanUp(){
+
+  RemoveCollisionHandler();
+  RemoveInputHandler();
+
+  cleanedUp = true;
 }
 
 //JAQ_TD This whole thing is pretty ugly. Should all be nicely typed and clever. Running out of time.
@@ -67,7 +80,7 @@ void Ship::Notified(const Collision *collision){
   auto impactVelocity = (collision->velocityA.Length() + collision->velocityB.Length());
   auto impactAngle = mathfu::AngleHelper(collision->forwardA, collision->forwardB);
 
-  if(impactVelocity < 22 && impactAngle < 0.0872665){
+  if(impactVelocity < 22 && impactAngle < 0.1){
     std::cout << "  Ship landed at " << impactVelocity << "m/s and angle " << impactAngle << "\n";
     GetComponent<PhysicsEntityComponent>()->ZeroAll();
 
@@ -76,14 +89,17 @@ void Ship::Notified(const Collision *collision){
     GetComponent<PhysicsEntityComponent>()->ZeroAll();
   }
 
-  //auto &collisionHandler = CollisionHandler::instance();
-  //collisionHandler.Detach(this);
+    shipCrashed = true;
 }
 
 Ship::~Ship(){
+  RemoveCollisionHandler();
+}
+void Ship::RemoveCollisionHandler(){
+  auto &handler = CollisionHandler::instance(); 
+  handler.Detach(this);  
+}
 
-  auto &collisionHandler = CollisionHandler::instance();
-
-  //JAQ_Todo check if detached first
-  collisionHandler.Detach(this);
+void Ship::RemoveInputHandler(){
+  RemoveComponent<DefaultInputComponent>();
 }

@@ -66,12 +66,16 @@ public:
       return nullptr;
     }
 
-    //Not sure how to specifiy the component
-    //void RemoveComponent(IComponent component){ 
-        //Remove from list
-        //Deregister it from things if required
-        //Destroy component
-    //}
+    template<typename T>
+    void RemoveComponent(){ 
+        auto componentToRemove = GetComponent<T>();
+
+        if(componentToRemove == nullptr)
+          return;
+
+        //components.(std::dynamic_pointer_cast<IComponent>(componentToRemove));
+        components.erase(std::remove(components.begin(), components.end(), componentToRemove), components.end());
+    }
 
     // void ForcePush(mathfu::Vector<float, 3> &&forceIn);
     // mathfu::Vector<float, 3> ForcePull();
