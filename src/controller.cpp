@@ -3,17 +3,32 @@
 #include "controller.h"
 #include "SDL.h"
 
-void Controller::HandleInput(bool &running) {
+GameState Controller::HandleClientInput() {
 
-  const Uint8 *state = SDL_GetKeyboardState(NULL);
-  Notify(state);
-
+  //JAQ_Future Keypresses for other states
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
-    if (e.type == SDL_QUIT) {
-      running = false;
-    }
+    if (e.type == SDL_QUIT)
+      return GameState::ending;
   }
+  return GameState::running;
+}
+
+GameState Controller::HandleGameInput(){
+
+  const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+  GameState gameState = GameState::running;
+
+  if(state[SDL_SCANCODE_R]){
+    gameState = GameState::restarting;
+  }else if(state[SDL_SCANCODE_C]){
+    gameState = GameState::transitioning;
+  }
+
+  Notify(state);
+
+  return gameState;
 }
 
 void Controller::Attach(IObserver<Uint8> *observer) {

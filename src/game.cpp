@@ -17,7 +17,7 @@
 #include "pad.h"
 #include "ship.h"
 
-Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
+Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn), gameState(GameState::notrunning) {
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -28,18 +28,11 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   Uint32 frame_end;
   Uint32 frame_work_done_duration;
 
-  float deltaTime = 0;
-
-  int frame_count = 0;
-  bool running = true;
-
   auto &controller = Controller::instance();
   auto &collisionHandler = CollisionHandler::instance();
 
   std::random_device randomDevice;
   std::mt19937 randomEngine(randomDevice());
-
-
 
   //JAQ_Todo eventually have variable ground
   float groundOffset = 10;
@@ -58,14 +51,27 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
   //JAQ_Todo Randomise this at the top of the screen
   auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
-  auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawnPosition));
+  auto ship = std::make_shared<Ship>(*this, "PlayerShip", std::move(shipSpawnPosition));
   gameObjects.push_back(ship);
   
+  float deltaTime = 0;
+  int frame_count = 0;
+  SetGameState(GameState::running);
+
   //Core loop
-  while (running) {
+  while (gameState == GameState::running) {
     frame_start = SDL_GetTicks();
 
-    controller.HandleInput(running);
+    //JAQ_Future should set up game.h as an observer as well, and handle events like that
+    //Handle closing window
+    SetGameState(controller.HandleClientInput());
+
+    //Handle user key presses
+    GameState updatedGameState = controller.HandleGameInput();
+
+    // if(levelState == LevelState::running && updatedGameState == GameState::transitioning)
+    //   SetGameState(updatedGameState);
+
     collisionHandler.ProcessCollisions();
     
     Update(deltaTime);
@@ -80,13 +86,11 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     }
     renderer.FrameEnd();
 
-    //JAQ_Todo Improve all this frame-timing stuff. It's not good. 
+    //JAQ_Future Improve all this frame-timing stuff. It's not good. 
     //Unlock framerate
-    //Use delta times for translations etc, put in singleton, and use for all frame-dependent calculations
-    //Separate thread for rendering, gameplay, physics
+    //Separate thread for rendering, gameplay, physics with deltaTime
     frame_work_done_end = SDL_GetTicks();
     frame_work_done_duration = frame_work_done_end - frame_start;
-    
 
     //Delay to hit target framerate
     if (frame_work_done_duration < target_frame_duration) {
@@ -98,14 +102,17 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   }
 }
 
+void Game::LevelEnded(std::string message){
+  //Draw UI
+
+  std::cout << message << "\n";
+}
+
 void Game::Update(float deltaTime) {
-  //if (!ship.alive) return;
 
   for(auto &gobject : gameObjects){
-
     gobject->Update(deltaTime);
   }
-
 }
 
 void Game::UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32 frame_duration, Uint32 frame_end, Uint32 frame_start, Uint32 title_timestamp){

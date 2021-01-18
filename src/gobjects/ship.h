@@ -11,11 +11,13 @@
 #include "observer.h"
 #include "collisionHandler.h"
 
+class Game;
+
 class Ship : public GObject, public IObserver<Collision>  {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition);
+  Ship(Game &gameIn, std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition);
   ~Ship();
 
   void Update(float deltaTime) override;
@@ -37,6 +39,7 @@ private:
   bool shipStopped;
   bool cleanedUp;
 
+  Game &game;
 };
 
 #endif

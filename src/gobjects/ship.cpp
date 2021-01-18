@@ -25,7 +25,7 @@ float RadToDeg(float radians){
     return radians * (180.0/3.141592653589793238463); 
 } 
 
-Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)), shipStopped(false), cleanedUp(false){
+Ship::Ship(Game &gameIn, std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)), game(gameIn), shipStopped(false), cleanedUp(false){
 
   std::cout << "Ship created\n";
 
@@ -79,6 +79,7 @@ void Ship::Notified(const Collision *collision){
   auto impactAngle = mathfu::AngleHelper(collision->forwardA, collision->forwardB);
 
   std::string outcome;
+  LevelState updatedLevelState = LevelState::failed;
 
   if(collision->colliderA->gobject.GetType() == GobjectType::pad || collision->colliderB->gobject.GetType() == GobjectType::pad){
 
@@ -97,6 +98,7 @@ void Ship::Notified(const Collision *collision){
 
     if(acceptableSpeed && acceptableAngle){
       outcome = "Well done! Ship landed at " + std::to_string(velocityTruncated) + "m/s and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
+      updatedLevelState = LevelState::passed;
     }else{
 
       outcome = "Unlucky. You reached the pad, but at " + std::to_string(velocityTruncated) + "m/s";
@@ -109,7 +111,8 @@ void Ship::Notified(const Collision *collision){
   }
 
   GetComponent<PhysicsEntityComponent>()->ZeroAll();
-  std::cout << outcome << "\n";
+
+  game.SetLevelState(updatedLevelState, outcome);
 }
 
 Ship::~Ship(){

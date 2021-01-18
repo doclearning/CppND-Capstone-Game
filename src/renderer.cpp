@@ -39,25 +39,15 @@ Renderer::~Renderer() {
 
 void Renderer::FrameBegin(){
 
-  // Clear scree
+  //Set background render color and clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
   SDL_RenderClear(sdl_renderer);
-
-    
   SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 255, 255);
-
-
-  //JAQ_Todo take this out
-  //Draw Origin
-  SDL_Rect box;
-  box.w = 5; 
-  box.h = 5; 
-  box.x = screen_width/2-3;
-  box.y = screen_height/2-3; 
-  SDL_RenderFillRect(sdl_renderer, &box);
 }
 
 void Renderer::FrameEnd(){
+  
+  //Draw frame
   SDL_RenderPresent(sdl_renderer);
 }
 
