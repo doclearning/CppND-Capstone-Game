@@ -11,7 +11,7 @@
 class Ground : public GObject {
  public:
 
-  Ground(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition);
+  Ground(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition, std::size_t screenWidth, std::size_t screenHeight);
 
   void Update(float deltaTime) override;
 

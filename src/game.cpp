@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <iostream>
+#include <random>
 
 #include "SDL.h"
 #include "mathfu/vector.h"
@@ -13,16 +14,8 @@
 #include "boxColliderComponent.h"
 #include "transform.h"
 #include "ground.h"
+#include "pad.h"
 #include "ship.h"
-
-//JAQ_Todo read these from a file
-static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
-  mathfu::vec3{-8, 8, 0},
-  mathfu::vec3{0, -16, 0},
-  mathfu::vec3{8, 8, 0},
-  mathfu::vec3{0, 0, 0},
-  mathfu::vec3{-8, 8, 0}
-};
 
 Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn) {
 }
@@ -43,48 +36,30 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   auto &controller = Controller::instance();
   auto &collisionHandler = CollisionHandler::instance();
 
-  //JAQ_Todo probably have some special methods to set this shit up (maybe even put them in the ship and ground objects... shiiiit)
+  std::random_device randomDevice;
+  std::mt19937 randomEngine(randomDevice());
+
+
 
   //JAQ_Todo eventually have variable ground
-  auto groundspawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight-10, 0);
-  auto ground = std::make_shared<Ground>("Ground", std::move(groundspawnPosition));
+  float groundOffset = 10;
+  auto groundSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight-groundOffset, 0);
+  auto ground = std::make_shared<Ground>("Ground", std::move(groundSpawnPosition), screenWidth, screenHeight);
   gameObjects.push_back(ground);
 
-  auto groundPhysicsComponent = ground->AddComponent<PhysicsEntityComponent>();
-  groundPhysicsComponent->SetMass(50.0);
-  
+  float randomPadWidth = std::uniform_int_distribution<int>(25, 40)(randomEngine);
+  float randomPadHeight = std::uniform_int_distribution<int>(10, 25)(randomEngine);
 
-  auto groundRenderComponent = ground->AddComponent<MeshRenderComponent>();
-  auto groundMeshModel = std::vector<mathfu::Vector<float, 3>> {{-static_cast<float>(screenWidth/2), 0.0, 0.0}, {static_cast<float>(screenWidth/2), 0.0, 0.0}};
-  groundRenderComponent->SetMesh(groundMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
-
-  auto groundCollisionComponent = ground->AddComponent<BoxColliderComponent>();
-  groundCollisionComponent->SetModelspaceBounds(mathfu::vec2(-static_cast<float>(screenWidth/2), static_cast<float>(screenWidth/2)), mathfu::vec2(static_cast<float>(0), static_cast<float>(10)));
-  collisionHandler.AddCollider(groundCollisionComponent);
-
-////----Ship
+  auto padYPosition = (randomPadHeight/2+groundSpawnPosition.y-groundOffset*3);
+  auto padSpawnPosition = mathfu::Vector<float, 3>(std::uniform_int_distribution<int>(30.0, screenWidth-30)(randomEngine), padYPosition, 0);
+  //auto padSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2+100, 0);
+  auto pad = std::make_shared<Pad>("Pad", std::move(padSpawnPosition), randomPadWidth, randomPadHeight);
+  gameObjects.push_back(pad);
 
   //JAQ_Todo Randomise this at the top of the screen
   auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
   auto ship = std::make_shared<Ship>("PlayerShip", std::move(shipSpawnPosition));
   gameObjects.push_back(ship);
-
-  ship->AddComponent<DefaultInputComponent>();
-  
-  auto shipPhysicsComponent = ship->AddComponent<PhysicsEntityComponent>();
-  shipPhysicsComponent->SetMass(50.0);
-  shipPhysicsComponent->SetVelocity(mathfu::Vector<float, 3>(0.0, 0.0, 0.0));
-  shipPhysicsComponent->SetAcceleration(mathfu::Vector<float, 3>(0.0, 10.0, 0.0));
-  shipPhysicsComponent->SetDamping(0.99f);
-  shipPhysicsComponent->ClearAccumulator();
-
-  //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
-  auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
-  shipRenderComponent->SetMesh(shipMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
-
-  auto shipCollisionComponent = ship->AddComponent<BoxColliderComponent>();
-  shipCollisionComponent->SetModelspaceBounds(mathfu::vec2(-8, 8), mathfu::vec2(-16, 8));
-  collisionHandler.AddCollider(shipCollisionComponent);
   
   //Core loop
   while (running) {

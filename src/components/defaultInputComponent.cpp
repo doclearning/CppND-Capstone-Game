@@ -9,8 +9,6 @@ DefaultInputComponent::DefaultInputComponent(Transform &transformIn, GObject &go
 
     auto &controller = Controller::instance();
     controller.Attach(this);
-
-    
 }
 
 void DefaultInputComponent::Update(float deltaTime){}

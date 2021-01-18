@@ -13,6 +13,9 @@ void CollisionHandler::ProcessCollisions(){
 
     for(int j = i+1; j < colliders.size(); ++j){
 
+      if(colliders[i]->IsStatic() && colliders[j]->IsStatic())
+        continue;
+
       bool isCollision = ProcessCollision(colliders[i], colliders[j]);
 
       //JAQ_TD This is also really ugly (obvs). Though will only happen once a game really, so not my biggest concern.

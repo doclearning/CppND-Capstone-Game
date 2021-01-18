@@ -1,6 +1,6 @@
 #include "boxColliderComponent.h"
 
-BoxColliderComponent::BoxColliderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn), modelspaceBoundsX(mathfu::kZeros2f), modelspaceBoundsY(mathfu::kZeros2f) {}
+BoxColliderComponent::BoxColliderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn), modelspaceBoundsX(mathfu::kZeros2f), modelspaceBoundsY(mathfu::kZeros2f), isStatic(false) {}
 
 void BoxColliderComponent::Update(float deltaTime){}
 

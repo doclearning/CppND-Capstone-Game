@@ -25,6 +25,14 @@ public:
     mathfu::vec2 GetWorldSpaceBoundsX();
     mathfu::vec2 GetWorldSpaceBoundsY();
 
+    bool IsStatic(){
+        return isStatic;
+    }
+
+    void SetStatic(bool isStaticIn){
+        isStatic = isStaticIn;
+    }
+
     ~BoxColliderComponent();
 
     GObject &gobject;
@@ -35,7 +43,7 @@ private:
     mathfu::vec2 modelspaceBoundsY;
 
     Transform &transform;
-    
+    bool isStatic;
 };
 
 #endif
