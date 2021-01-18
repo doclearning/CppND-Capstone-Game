@@ -22,34 +22,22 @@ void DefaultInputComponent::Notified(const Uint8 *state){
   //JAQ_TODO Make member variables
   float tempFactor = 50;
 
-  int count = 0;
-
   if (state[SDL_SCANCODE_A]) {
-    count++;
     transform.zAxisAngle -= 0.0872665;
   }
 
   if (state[SDL_SCANCODE_D]) {
-    count++;
     transform.zAxisAngle += 0.0872665;
   }
 
   if (state[SDL_SCANCODE_W]) {
-    count++;
-
     shipPhysicsComponent->AddAcceleration(transform.forward * tempFactor);
-    //gobject.accruedForce += transform.forward * tempFactor;
   }else{
     shipPhysicsComponent->ClearAccumulator();
   }
   
   if (state[SDL_SCANCODE_S]) {
-    count++;
-    //transform.position -= transform.forward * tempFactor;
   }
-
-  //if(count == 0)
-  //   std::cout << "\n";
 }
 
 DefaultInputComponent::~DefaultInputComponent(){

@@ -13,7 +13,7 @@ class Controller : public Singleton<Controller>, public ISubject<Uint8> {
   Controller(token) { std::cout << "Controller constructed" << std::endl; }
 
   GameState HandleClientInput();
-  GameState HandleGameInput();
+  void HandleGameInput();
 
   void Attach(IObserver<Uint8> *observer) override;
   void Detach(IObserver<Uint8> *observer) override;

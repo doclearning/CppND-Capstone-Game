@@ -17,7 +17,17 @@
 #include "pad.h"
 #include "ship.h"
 
-Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn), gameState(GameState::notrunning) {
+Game::Game(std::size_t screenWidthIn, std::size_t screenHeightIn) : screenWidth(screenWidthIn), screenHeight(screenHeightIn), gameState(GameState::notrunning), levelState(LevelState::running) {
+
+  Controller::instance().Attach(this);
+}
+
+Game::~Game(){
+  Controller::instance().Detach(this);
+}
+
+void Game::Start(){
+
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -65,9 +75,10 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     //JAQ_Future should set up game.h as an observer as well, and handle events like that
     //Handle closing window
     SetGameState(controller.HandleClientInput());
+    controller.HandleGameInput();
 
     //Handle user key presses
-    GameState updatedGameState = controller.HandleGameInput();
+    //controller.HandleGameInput();
 
     // if(levelState == LevelState::running && updatedGameState == GameState::transitioning)
     //   SetGameState(updatedGameState);
@@ -102,10 +113,25 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   }
 }
 
-void Game::LevelEnded(std::string message){
-  //Draw UI
+void Game::SetGameState(GameState gameStateIn){
+  gameState = gameStateIn;
+}
 
+void Game::SetLevelState(LevelState levelStateIn, std::string message){
+
+  if(levelStateIn == levelState)
+    return;
+  
+  if(levelStateIn != LevelState::running)
+    LevelEnded(message);
+
+  levelState = levelStateIn;
+}
+
+void Game::LevelEnded(std::string message){
   std::cout << message << "\n";
+
+    //JAQ_Todo draw UI
 }
 
 void Game::Update(float deltaTime) {
@@ -129,3 +155,18 @@ void Game::UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32
 }
 
 int Game::GetScore() const { return score; }
+
+void Game::Notified(const Uint8 *state){
+
+  if(levelState == LevelState::failed || levelState == LevelState::passed)
+    if (state[SDL_SCANCODE_R]) {
+      std::cout << "Pressing restart\n";
+      SetGameState(GameState::restarting);
+    }
+
+  if(levelState == LevelState::passed)
+    if (state[SDL_SCANCODE_C]) {
+      std::cout << "Pressing continue\n";
+      SetGameState(GameState::continuing);
+    }
+}

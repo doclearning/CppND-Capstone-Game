@@ -14,21 +14,9 @@ GameState Controller::HandleClientInput() {
   return GameState::running;
 }
 
-GameState Controller::HandleGameInput(){
+void Controller::HandleGameInput(){
 
-  const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-  GameState gameState = GameState::running;
-
-  if(state[SDL_SCANCODE_R]){
-    gameState = GameState::restarting;
-  }else if(state[SDL_SCANCODE_C]){
-    gameState = GameState::transitioning;
-  }
-
-  Notify(state);
-
-  return gameState;
+  Notify(SDL_GetKeyboardState(NULL));
 }
 
 void Controller::Attach(IObserver<Uint8> *observer) {
