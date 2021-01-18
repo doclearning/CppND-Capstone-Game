@@ -34,7 +34,7 @@ private:
   void RemoveInputHandler();
   void CleanUp();
   
-  bool shipCrashed;
+  bool shipStopped;
   bool cleanedUp;
 
 };

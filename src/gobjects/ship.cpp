@@ -21,7 +21,11 @@ static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
   mathfu::vec3{-8, 8, 0}
 };
 
-Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)), shipCrashed(false), cleanedUp(false){
+float RadToDeg(float radians){ 
+    return radians * (180.0/3.141592653589793238463); 
+} 
+
+Ship::Ship(std::string &&nameIn, mathfu::Vector<float, 3> &&spawnPosition) : GObject(std::move(nameIn), std::move(spawnPosition)), shipStopped(false), cleanedUp(false){
 
   std::cout << "Ship created\n";
 
@@ -51,7 +55,7 @@ void Ship::Update(float deltaTime) {
   GObject::Update(deltaTime);
 
   //Not really clean, but need to remove this here rather than in notified, as we can't remove those observers during the notify
-  if(shipCrashed && !cleanedUp)
+  if(shipStopped && !cleanedUp)
     CleanUp();
 }
 
@@ -64,32 +68,48 @@ void Ship::CleanUp(){
 }
 
 //JAQ_TD This whole thing is pretty ugly. Should all be nicely typed and clever. Running out of time.
+//JAQ_TD would be better if I knew the types of the colliders
 void Ship::Notified(const Collision *collision){
 
-  std::cout << "Collision observed in ship object: ";
+  if(collision->colliderA->gobject.GetType() != GetType() && collision->colliderB->gobject.GetType() != GetType())
+    return;
 
-  //Find out if it's with a pad or the ground
-  // if(collision->colliderA->gobject.GetType() == GetType()){
-  //   std::cout << "ColliderA is the ship\n";
-  // }else if(collision->colliderB->gobject.GetType() == GetType()){
-  //   std::cout << "ColliderB is the ship\n";
-  // }
-  std::cout << "Collider A = " << collision->colliderA->gobject.GetType() << "\n";
-  std::cout << "Collider B = " << collision->colliderB->gobject.GetType() << "\n";
-
+  shipStopped = true;
   auto impactVelocity = (collision->velocityA.Length() + collision->velocityB.Length());
   auto impactAngle = mathfu::AngleHelper(collision->forwardA, collision->forwardB);
 
-  if(impactVelocity < 22 && impactAngle < 0.1){
-    std::cout << "  Ship landed at " << impactVelocity << "m/s and angle " << impactAngle << "\n";
-    GetComponent<PhysicsEntityComponent>()->ZeroAll();
+  std::string outcome;
 
+  if(collision->colliderA->gobject.GetType() == GobjectType::pad || collision->colliderB->gobject.GetType() == GobjectType::pad){
+
+    bool acceptableSpeed = false; 
+    bool acceptableAngle = false;
+
+    if(impactVelocity < 28)
+      acceptableSpeed = true;
+
+    if(impactAngle < 0.1){
+      acceptableAngle = true;
+    }
+
+    int angleInDegTruncated = static_cast<int>(RadToDeg(impactAngle));
+    int velocityTruncated = static_cast<int>(impactVelocity);
+
+    if(acceptableSpeed && acceptableAngle){
+      outcome = "Well done! Ship landed at " + std::to_string(velocityTruncated) + "m/s and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
+    }else{
+
+      outcome = "Unlucky. You reached the pad, but at " + std::to_string(velocityTruncated) + "m/s";
+      if(!acceptableSpeed)outcome += " (too fast)";
+      outcome += " and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
+      if(!acceptableAngle)outcome += " (too off-centre)";
+    }
   }else{
-    std::cout << "  Ship crashed at " << impactVelocity << "m/s and angle " << impactAngle << "\n";
-    GetComponent<PhysicsEntityComponent>()->ZeroAll();
+    outcome = "Bad luck! You didn't make it to the pad";
   }
 
-    shipCrashed = true;
+  GetComponent<PhysicsEntityComponent>()->ZeroAll();
+  std::cout << outcome << "\n";
 }
 
 Ship::~Ship(){

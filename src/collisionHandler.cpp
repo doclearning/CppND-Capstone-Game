@@ -63,10 +63,7 @@ void CollisionHandler::Attach(IObserver<Collision> *observer) {
 }
 void CollisionHandler::Detach(IObserver<Collision> *observer) {
 
-  std::cout << "List observer size = " << list_observer_.size() << "\n";
-
   auto exists = std::find(list_observer_.begin(), list_observer_.end(), observer) != list_observer_.end();
-  std::cout << "Observer is in list = " << exists << "\n";
 
   if(std::find(list_observer_.begin(), list_observer_.end(), observer) != list_observer_.end());
     list_observer_.remove(observer);
