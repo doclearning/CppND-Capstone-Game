@@ -15,6 +15,7 @@ class Ground : public GObject {
 
   void Update(float deltaTime) override;
 
+  GobjectType GetType() override {return GobjectType::ground;}
 
 private:
   

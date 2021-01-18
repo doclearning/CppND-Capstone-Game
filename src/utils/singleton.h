@@ -1,3 +1,6 @@
+#ifndef SINGLETON_H
+#define SINGLETON_H
+
 //Templatable singleton pattern taken from: https://codereview.stackexchange.com/questions/173929/modern-c-singleton-template
 template<typename T>
 class Singleton {
@@ -19,3 +22,5 @@ T& Singleton<T>::instance(){
     static const std::unique_ptr<T> instance{new T{token{}}};
     return *instance;
 }
+
+#endif

@@ -5,8 +5,12 @@
 #include "SDL.h"
 #include "mathfu/vector.h"
 #include "mathfu/glsl_mappings.h"
+
+#include "controller.h"
+#include "collisionHandler.h"
 #include "meshRenderComponent.h"
 #include "physicsEntityComponent.h"
+#include "boxColliderComponent.h"
 #include "transform.h"
 #include "ground.h"
 #include "ship.h"
@@ -37,16 +41,28 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   bool running = true;
 
   auto &controller = Controller::instance();
+  auto &collisionHandler = CollisionHandler::instance();
+
+  //JAQ_Todo probably have some special methods to set this shit up (maybe even put them in the ship and ground objects... shiiiit)
 
   //JAQ_Todo eventually have variable ground
   auto groundspawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight-10, 0);
   auto ground = std::make_shared<Ground>("Ground", std::move(groundspawnPosition));
   gameObjects.push_back(ground);
 
-  auto groundRenderComponent = ground->AddComponent<MeshRenderComponent>();
+  auto groundPhysicsComponent = ground->AddComponent<PhysicsEntityComponent>();
+  groundPhysicsComponent->SetMass(50.0);
   
+
+  auto groundRenderComponent = ground->AddComponent<MeshRenderComponent>();
   auto groundMeshModel = std::vector<mathfu::Vector<float, 3>> {{-static_cast<float>(screenWidth/2), 0.0, 0.0}, {static_cast<float>(screenWidth/2), 0.0, 0.0}};
   groundRenderComponent->SetMesh(groundMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
+
+  auto groundCollisionComponent = ground->AddComponent<BoxColliderComponent>();
+  groundCollisionComponent->SetModelspaceBounds(mathfu::vec2(-static_cast<float>(screenWidth/2), static_cast<float>(screenWidth/2)), mathfu::vec2(static_cast<float>(0), static_cast<float>(10)));
+  collisionHandler.AddCollider(groundCollisionComponent);
+
+////----Ship
 
   //JAQ_Todo Randomise this at the top of the screen
   auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
@@ -65,12 +81,17 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
   auto shipRenderComponent = ship->AddComponent<MeshRenderComponent>();
   shipRenderComponent->SetMesh(shipMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
+
+  auto shipCollisionComponent = ship->AddComponent<BoxColliderComponent>();
+  shipCollisionComponent->SetModelspaceBounds(mathfu::vec2(-8, 8), mathfu::vec2(-16, 8));
+  collisionHandler.AddCollider(shipCollisionComponent);
   
   //Core loop
   while (running) {
     frame_start = SDL_GetTicks();
 
     controller.HandleInput(running);
+    collisionHandler.ProcessCollisions();
     
     Update(deltaTime);
 

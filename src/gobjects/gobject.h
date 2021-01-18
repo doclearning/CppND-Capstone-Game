@@ -20,6 +20,8 @@ inline bool instanceof(const T&) {
   return std::is_base_of<Base, T>::value;
 }
 
+enum GobjectType { gObject, ship, ground, pad };
+
 //JAQ_Todo Move functions into cpp
 class GObject {
 
@@ -49,8 +51,7 @@ public:
         return addedComponent;
     }
 
-    //JAQ_Refactor FIX THIS AND REMOVE THE ACCRUED FORCE BELOW.
-    //This is awful.
+    //JAQ_Refactor Fix this. It's gross.
     template<typename T>
     std::shared_ptr<T> GetComponent(){
 
@@ -83,8 +84,8 @@ public:
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
 
-private:
-  //std::unordered_map<typeid, std::shared_ptr<IComponent>> componentMap {};
+    virtual GobjectType GetType(){return GobjectType::gObject;}
+
 };
 
 #endif

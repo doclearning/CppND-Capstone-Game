@@ -26,12 +26,15 @@ public:
     void SetVelocity(mathfu::vec3 velocityIn);
     void SetAcceleration(mathfu::vec3 accelerationIn);
     void SetDamping(float dampingIn);
+
+    mathfu::vec3 GetVelocity();
     
     
     void AddImpulse(const mathfu::vec3 &forceIn);
     void AddAcceleration(const mathfu::vec3 &forceIn);
 
     void ClearAccumulator();
+    void ZeroAll();
 
     ~PhysicsEntityComponent();
 

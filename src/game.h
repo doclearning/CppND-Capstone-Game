@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "SDL.h"
-#include "controller.h"
 #include "renderer.h"
 #include "defaultInputComponent.h"
 

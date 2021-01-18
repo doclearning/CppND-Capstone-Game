@@ -18,6 +18,8 @@ class ISubject {
   virtual ~ISubject(){};
   virtual void Attach(IObserver<T> *observer) = 0;
   virtual void Detach(IObserver<T> *observer) = 0;
+
+  //JAQ_TD refactor this to return a reference or an rvr
   virtual void Notify(const T *notice) = 0;
 
   //Basic templating is sort of set up, apart from the notice above. Not finished.

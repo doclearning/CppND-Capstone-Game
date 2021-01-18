@@ -4,7 +4,7 @@
 #include "mathfu/constants.h"
 
 //Uses the Controller singleton to attach to it as an IObserver
-PhysicsEntityComponent::PhysicsEntityComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){
+PhysicsEntityComponent::PhysicsEntityComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn), inverseMass(0), damping(0), velocity(mathfu::kZeros3f), acceleration(mathfu::kZeros3f){
 
 }
 
@@ -45,7 +45,7 @@ void PhysicsEntityComponent::AddAcceleration(const mathfu::vec3 &forceIn){
     forceAccumulation += forceIn;
 }
 
-//---------------- Mutators
+//---------------- Mutators & Accessors
 
 void PhysicsEntityComponent::SetMass(float massIn){
     
@@ -68,6 +68,18 @@ void PhysicsEntityComponent::SetDamping(float dampingIn){
 void PhysicsEntityComponent::ClearAccumulator(){
 
     forceAccumulation = mathfu::kZeros3f;
+}
+
+mathfu::vec3 PhysicsEntityComponent::GetVelocity(){
+    return velocity;
+}
+
+void PhysicsEntityComponent::ZeroAll(){
+    SetMass(0);
+    SetVelocity(mathfu::kZeros3f);
+    SetAcceleration(mathfu::kZeros3f);
+    SetDamping(0);
+    ClearAccumulator();
 }
 
 
