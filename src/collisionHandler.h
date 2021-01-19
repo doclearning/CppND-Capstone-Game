@@ -7,6 +7,7 @@
 #include "observer.h"
 #include "singleton.h"
 #include "boxColliderComponent.h"
+#include "physicsEntityComponent.h"
 #include "collision.h"
 
 class CollisionHandler : public Singleton<CollisionHandler>, public ISubject<Collision> {
@@ -22,7 +23,6 @@ class CollisionHandler : public Singleton<CollisionHandler>, public ISubject<Col
   //JAQ_TD should be generic
   void AddCollider(std::shared_ptr<BoxColliderComponent> collider);
 
-  //JAQ_todo
   void RemoveCollider(std::shared_ptr<BoxColliderComponent> collider);
   void RemoveAllColliders();
 

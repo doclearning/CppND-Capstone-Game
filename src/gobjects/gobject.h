@@ -11,33 +11,16 @@
 #include "component.h"
 #include "transform.h"
  
-//JAQ_Issues Really need to better understand forward declaration
 class IComponent;
-
-//Check object is of class type
-template<typename Base, typename T>
-inline bool instanceof(const T&) {
-  return std::is_base_of<Base, T>::value;
-}
 
 enum GobjectType { gObject, ship, ground, pad };
 
-//JAQ_Todo Move functions into cpp
 class GObject {
 
 public: 
-    //JAQ_Query do I need to std::move the arguments here
-    GObject(std::string &&nameIn, mathfu::Vector<float, 3> &&positionIn) : name(nameIn), transform(positionIn){
+    GObject(std::string &&nameIn, mathfu::Vector<float, 3> &&positionIn);
 
-        std::cout << "Spawning " << name << " at " << transform.position[0] << ", " << transform.position[1] << "\n";
-    }
-
-    virtual void Update(float deltaTime){
-
-      for(auto &component : components){
-        component->Update(deltaTime);
-      }
-    }
+    virtual void Update(float deltaTime);
 
     //Templated method prevents me having to pass gobject.transform as a parameter to the IComponent object
     //The pointer is copied on the return to allow for setup of the object in the calling function
@@ -75,9 +58,6 @@ public:
         //components.(std::dynamic_pointer_cast<IComponent>(componentToRemove));
         components.erase(std::remove(components.begin(), components.end(), componentToRemove), components.end());
     }
-
-    // void ForcePush(mathfu::Vector<float, 3> &&forceIn);
-    // mathfu::Vector<float, 3> ForcePull();
     
     std::string name;
     Transform transform;
@@ -87,7 +67,7 @@ public:
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
 
-    virtual GobjectType GetType(){return GobjectType::gObject;}
+    virtual GobjectType GetType();
 
 };
 

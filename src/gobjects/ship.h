@@ -23,11 +23,6 @@ class Ship : public GObject, public IObserver<Collision>  {
   void Update(float deltaTime) override;
 
   void Notified(const Collision *notification) override;
-  
-  //JAQ_Todo clean up or use this
-  float speed{1.0};
-  bool alive{true};
-
 
   GobjectType GetType() override {return GobjectType::ship;}
 
@@ -40,6 +35,9 @@ private:
   bool cleanedUp;
 
   Game &game;
+
+  static constexpr float MAX_IMPACT_VELOCITY = 40;
+  static constexpr float MAX_IMPACT_ANGLE = 0.15;
 };
 
 #endif

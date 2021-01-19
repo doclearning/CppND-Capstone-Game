@@ -12,7 +12,7 @@
 #include "defaultInputComponent.h"
 #include "controller.h"
 
-//JAQ_Todo read these from a file
+//JAQ_Future read these from a file
 static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
   mathfu::vec3{-8, 8, 0},
   mathfu::vec3{0, -16, 0},
@@ -88,11 +88,10 @@ void Ship::Notified(const Collision *collision){
 
     //JAQ_TD The ship should not really be making these decisions. The game should.
 
-    //JAQ_Todo Need to parameterise these variables
-    if(impactVelocity < 40)
+    if(impactVelocity < MAX_IMPACT_VELOCITY)
       acceptableSpeed = true;
 
-    if(impactAngle < 0.15){
+    if(impactAngle < MAX_IMPACT_ANGLE){
       acceptableAngle = true;
     }
 

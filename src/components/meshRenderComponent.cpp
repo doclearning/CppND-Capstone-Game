@@ -16,11 +16,6 @@ void MeshRenderComponent::Draw(Renderer &renderer) {
   SDL_SetRenderDrawColor(renderer.GetRenderContext(), rgba[0], rgba[1], rgba[2], rgba[3]);
 
   SDL_RenderDrawLines(renderer.GetRenderContext(), meshCache, numVertices);
-
-  // SDL_SetRenderDrawColor(renderer.GetRenderContext(), 255, 0, 0, rgba[3]);
-  // int worldX = static_cast<int>(transform.position[0]);
-  // int worldY = static_cast<int>(transform.position[1]);
-  // SDL_RenderDrawLine(renderer.GetRenderContext(), worldX, worldY, worldX+(transform.forward[0]*20), worldY+(transform.forward[1]*20));
 }
 
 void MeshRenderComponent::UpdateMeshCache(){
@@ -31,18 +26,11 @@ void MeshRenderComponent::UpdateMeshCache(){
 }
 
 void MeshRenderComponent::UpdateWorldSpaceMesh(){
-  
-  int xOffset = static_cast<int>(transform.position[0]);
-  int yOffset = static_cast<int>(transform.position[1]);
 
-  //JAQ_Todo Probably should add vectors here, but would then make more allocations
   for(int i = 0; i < numVertices; ++i){
-
-    worldSpace[i].x = modelSpace[i].x + xOffset;
-    worldSpace[i].y = modelSpace[i].y + yOffset;
+    worldSpace[i] = modelSpace[i] + transform.position;
   }
 }
-
 
 void MeshRenderComponent::Rotate(){
 
@@ -57,4 +45,21 @@ void MeshRenderComponent::Rotate(){
 
   transform.forward = quaternion * transform.forward;
   transform.forward.Normalize();
+}
+
+ComponentType MeshRenderComponent::GetType(){
+    return ComponentType::meshRenderComponent;
+}
+
+void MeshRenderComponent::SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
+
+
+    modelSpace = std::move(meshIn);
+    worldSpace = modelSpace;
+    meshCache = new SDL_Point[modelSpace.size()];
+    numVertices = modelSpace.size();
+
+    rgba = std::move(rgbaIn); //JAQ_Query is the move necessary here, or is it automatic because it's an rvr?
+
+    hasMesh = true;
 }

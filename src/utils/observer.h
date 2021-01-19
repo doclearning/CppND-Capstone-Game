@@ -3,8 +3,6 @@
 
 #include <string>
 
-//JAQ_TODO: Maybe pass functions rather than object?
-
 template <class T>
 class IObserver {
  public:
@@ -21,8 +19,6 @@ class ISubject {
 
   //JAQ_TD refactor this to return a reference or an rvr
   virtual void Notify(const T *notice) = 0;
-
-  //Basic templating is sort of set up, apart from the notice above. Not finished.
 };
 
 #endif

@@ -21,11 +21,8 @@ class Game : public IObserver<Uint8>{
   int GetScore() const;
   int GetSize() const;
 
-  //JAQ_Todo put this in cpp
   void SetGameState(GameState gameStateIn);
   void SetLevelState(LevelState levelStateIn, std::string message);
-
-  void LevelEnded(std::string);
 
   void Notified(const Uint8 *notification) override;
 

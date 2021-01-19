@@ -152,19 +152,10 @@ void Game::SetLevelState(LevelState levelStateIn, std::string message){
 
   if(levelStateIn == levelState)
     return;
-  
-  if(levelStateIn != LevelState::running)
-    LevelEnded(message);
 
   levelState = levelStateIn;
 
   levelFinishMessage = std::move(message);
-}
-
-void Game::LevelEnded(std::string message){
-  std::cout << message << "\n";
-
-    //JAQ_Todo draw UI
 }
 
 void Game::Update(float deltaTime) {
@@ -180,13 +171,11 @@ void Game::Notified(const Uint8 *state){
 
   if(levelState == LevelState::failed || levelState == LevelState::passed)
     if (state[SDL_SCANCODE_R]) {
-      std::cout << "Pressing restart\n";
       SetGameState(GameState::restarting);
     }
 
   if(levelState == LevelState::passed)
     if (state[SDL_SCANCODE_C]) {
-      std::cout << "Pressing continue\n";
       SetGameState(GameState::continuing);
     }
 }

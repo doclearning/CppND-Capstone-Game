@@ -18,25 +18,10 @@ public:
     virtual void Draw(Renderer &renderer) override;
     virtual void Update(float deltaTime) override{};
 
-    ComponentType GetType(){
-        return ComponentType::meshRenderComponent;
-    }
+    //JAQ_Todo remove all the get-types I think not used?
+    ComponentType GetType();
 
-    //JAQ_Todo move this to class
-    void SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
-
-    
-        modelSpace = std::move(meshIn);
-        worldSpace = modelSpace;
-        meshCache = new SDL_Point[modelSpace.size()];
-        numVertices = modelSpace.size();
-
-        rgba = std::move(rgbaIn); //JAQ_Query is the move necessary here, or is it automatic because it's an rvr?
-
-        hasMesh = true;
-    }
-
-   
+    void SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn);
 
 private:
     void UpdateWorldSpaceMesh();

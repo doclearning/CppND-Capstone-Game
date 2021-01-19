@@ -29,6 +29,9 @@ private:
     Transform &transform;
     GObject &gobject;
 
+    static constexpr float VELOCITY_SCALE_FACTOR = 50;
+    static constexpr float ROTATION_ANGLE_STEP = 0.0872665;
+
     std::shared_ptr<PhysicsEntityComponent> shipPhysicsComponent;
 };
 

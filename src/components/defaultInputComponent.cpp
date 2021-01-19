@@ -19,19 +19,17 @@ void DefaultInputComponent::Notified(const Uint8 *state){
   if(shipPhysicsComponent == nullptr)
     shipPhysicsComponent = gobject.GetComponent<PhysicsEntityComponent>();
 
-  //JAQ_TODO Make member variables
-  float tempFactor = 50;
 
   if (state[SDL_SCANCODE_A]) {
-    transform.zAxisAngle -= 0.0872665;
+    transform.zAxisAngle -= ROTATION_ANGLE_STEP;
   }
 
   if (state[SDL_SCANCODE_D]) {
-    transform.zAxisAngle += 0.0872665;
+    transform.zAxisAngle += ROTATION_ANGLE_STEP;
   }
 
   if (state[SDL_SCANCODE_W]) {
-    shipPhysicsComponent->AddAcceleration(transform.forward * tempFactor);
+    shipPhysicsComponent->AddAcceleration(transform.forward * VELOCITY_SCALE_FACTOR);
   }else{
     shipPhysicsComponent->ClearAccumulator();
   }

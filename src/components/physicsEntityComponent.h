@@ -8,6 +8,7 @@
 #include "mathfu/glsl_mappings.h"
 
 class Renderer;
+class GObject;
 
 class PhysicsEntityComponent : public IComponent {
 
