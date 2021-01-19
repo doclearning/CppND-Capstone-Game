@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "observer.h"
 #include "renderer.h"
-#include "defaultInputComponent.h"
+#include "shipInputComponent.h"
 
 enum class GameState {notrunning, running, restarting, continuing, ending};
 enum class LevelState {running, passed, failed};

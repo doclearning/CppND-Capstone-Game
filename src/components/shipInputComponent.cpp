@@ -1,19 +1,19 @@
-#include "defaultInputComponent.h"
+#include "shipInputComponent.h"
 #include <iostream>
 #include "mathfu/constants.h"
 #include "controller.h"
 #include "physicsEntityComponent.h"
 
 //Uses the Controller singleton to attach to it as an IObserver
-DefaultInputComponent::DefaultInputComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){
+ShipInputComponent::ShipInputComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), gobject(gobjectIn){
 
     auto &controller = Controller::instance();
     controller.Attach(this);
 }
 
-void DefaultInputComponent::Update(float deltaTime){}
+void ShipInputComponent::Update(float deltaTime){}
 
-void DefaultInputComponent::Notified(const Uint8 *state){
+void ShipInputComponent::Notified(const Uint8 *state){
 
   //Gross, but lazy-assign this becuase we don't know if the other component will exist in the ctor
   if(shipPhysicsComponent == nullptr)
@@ -38,6 +38,6 @@ void DefaultInputComponent::Notified(const Uint8 *state){
   }
 }
 
-DefaultInputComponent::~DefaultInputComponent(){
+ShipInputComponent::~ShipInputComponent(){
     Controller::instance().Detach(this);
 }

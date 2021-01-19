@@ -1,5 +1,5 @@
-#ifndef DEFAULT_INPUT_COMPONENT_H
-#define DEFAULT_INPUT_COMPONENT_H
+#ifndef SHIP_INPUT_COMPONENT_H
+#define SHIP_INPUT_COMPONENT_H
 
 #include "SDL.h"
 #include "gobject.h"
@@ -8,18 +8,17 @@
 #include "physicsEntityComponent.h"
 
 class Renderer;
-
-//JAQ_Todo refactor this to player input component. As then it's unique.
-class DefaultInputComponent : public IComponent, public IObserver<Uint8> {
+ 
+class ShipInputComponent : public IComponent, public IObserver<Uint8> {
 
 public:
-    DefaultInputComponent(Transform &transformIn, GObject &gobjectIn);
+    ShipInputComponent(Transform &transformIn, GObject &gobjectIn);
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update(float deltaTime) override;
-    
+
     void Notified(const Uint8 *notification) override;
 
-    ~DefaultInputComponent();
+    ~ShipInputComponent();
 
 private:
     Transform &transform;

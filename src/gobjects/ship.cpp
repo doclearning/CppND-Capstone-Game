@@ -9,7 +9,7 @@
 
 #include "meshRenderComponent.h"
 #include "physicsEntityComponent.h"
-#include "defaultInputComponent.h"
+#include "shipInputComponent.h"
 #include "controller.h"
 
 //JAQ_Future read these from a file
@@ -32,7 +32,7 @@ Ship::Ship(Game &gameIn, std::string &&nameIn, mathfu::Vector<float, 3> &&spawnP
   auto &collisionHandler = CollisionHandler::instance();
   collisionHandler.Attach(this);
 
-  AddComponent<DefaultInputComponent>();
+  AddComponent<ShipInputComponent>();
   
   auto physicsComponent = AddComponent<PhysicsEntityComponent>();
   physicsComponent->SetMass(50.0);
@@ -125,5 +125,5 @@ void Ship::RemoveCollisionHandler(){
 }
 
 void Ship::RemoveInputHandler(){
-  RemoveComponent<DefaultInputComponent>();
+  RemoveComponent<ShipInputComponent>();
 }

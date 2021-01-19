@@ -17,7 +17,7 @@ PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} src src/components src/gobjects src/utils include)
 
-add_executable(LanderClone src/main.cpp src/game.cpp src/controller.cpp src/collisionHandler.cpp src/renderer.cpp src/gobjects/gobject.cpp src/gobjects/ship.cpp src/gobjects/ground.cpp src/gobjects/pad.cpp src/components/defaultRenderComponent.cpp src/components/defaultInputComponent.cpp src/components/meshRenderComponent.cpp src/components/physicsEntityComponent.cpp src/components/boxColliderComponent.cpp)
+add_executable(LanderClone src/main.cpp src/game.cpp src/controller.cpp src/collisionHandler.cpp src/renderer.cpp src/gobjects/gobject.cpp src/gobjects/ship.cpp src/gobjects/ground.cpp src/gobjects/pad.cpp src/components/defaultRenderComponent.cpp src/components/shipInputComponent.cpp src/components/meshRenderComponent.cpp src/components/physicsEntityComponent.cpp src/components/boxColliderComponent.cpp)
 
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(LanderClone ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
