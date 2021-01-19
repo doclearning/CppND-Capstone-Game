@@ -100,11 +100,11 @@ void Ship::Notified(const Collision *collision){
     int velocityTruncated = static_cast<int>(impactVelocity);
 
     if(acceptableSpeed && acceptableAngle){
-      outcome = "Well done! Ship landed at " + std::to_string(velocityTruncated) + "m/s and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
+      outcome = "Well done! Ship landed. Velocity " + std::to_string(velocityTruncated) + "m/s and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
       updatedLevelState = LevelState::passed;
     }else{
 
-      outcome = "Unlucky. You reached the pad, but at " + std::to_string(velocityTruncated) + "m/s";
+      outcome = "Unlucky. You crashed into the pad. Velocity " + std::to_string(velocityTruncated) + "m/s";
       if(!acceptableSpeed)outcome += " (too fast)";
       outcome += " and angle " + std::to_string(angleInDegTruncated) + " degrees from vertical";
       if(!acceptableAngle)outcome += " (too off-centre)";

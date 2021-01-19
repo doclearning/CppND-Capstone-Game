@@ -40,6 +40,7 @@ class Game : public IObserver<Uint8>{
 
   int score{0};
   int currentLevel{1};
+  std::string LevelFinishMessage {};
 
   GameState gameState;
   LevelState levelState;

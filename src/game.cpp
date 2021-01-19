@@ -36,7 +36,6 @@ void Game::Start(Renderer &renderer, std::size_t target_frame_duration){
 
     if(gameState == GameState::continuing){
 
-      //JAQ_Todo ramp scoring
       score += pow(currentLevel, 2);
       currentLevel++;
     }else{
@@ -100,6 +99,10 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     Update(deltaTime);
 
     renderer.FrameBegin();
+
+    if(levelState != LevelState::running)
+      renderer.DrawText(LevelFinishMessage, -300, 800);
+
     for(auto &gobject : gameObjects){
       for(auto &component : gobject->components){
         component->Draw(renderer);
@@ -141,6 +144,8 @@ void Game::SetLevelState(LevelState levelStateIn, std::string message){
     LevelEnded(message);
 
   levelState = levelStateIn;
+
+  LevelFinishMessage = std::move(message);
 }
 
 void Game::LevelEnded(std::string message){
