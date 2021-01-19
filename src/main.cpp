@@ -10,7 +10,7 @@ int main() {
 
   Renderer renderer(kScreenWidth, kScreenHeight);
   Game game(kScreenWidth, kScreenHeight);
-  game.Run(renderer, kMsPerFrame);
+  game.Start(renderer, kMsPerFrame);
   std::cout << "Game Over man!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
   return 0;

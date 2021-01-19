@@ -15,7 +15,7 @@ class Game : public IObserver<Uint8>{
   Game(std::size_t screenWidth, std::size_t screenHeight);
   ~Game();
 
-  void Start();
+  void Start(Renderer &renderer, std::size_t target_frame_duration);
 
   void Run(Renderer &renderer, std::size_t target_frame_duration);
   int GetScore() const;
@@ -32,7 +32,6 @@ class Game : public IObserver<Uint8>{
  private:
 
   void Update(float deltaTime);
-  void UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32 frame_duration, Uint32 frame_end, Uint32 frame_start, Uint32 title_timestamp);
 
   std::vector<std::shared_ptr<GObject>> gameObjects {};
 
@@ -40,6 +39,7 @@ class Game : public IObserver<Uint8>{
   std::size_t screenHeight;
 
   int score{0};
+  int currentLevel{1};
 
   GameState gameState;
   LevelState levelState;

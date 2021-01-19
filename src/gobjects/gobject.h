@@ -26,18 +26,17 @@ enum GobjectType { gObject, ship, ground, pad };
 class GObject {
 
 public: 
+    //JAQ_Query do I need to std::move the arguments here
+    GObject(std::string &&nameIn, mathfu::Vector<float, 3> &&positionIn) : name(nameIn), transform(positionIn){
+
+        std::cout << "Spawning " << name << " at " << transform.position[0] << ", " << transform.position[1] << "\n";
+    }
+
     virtual void Update(float deltaTime){
 
       for(auto &component : components){
         component->Update(deltaTime);
       }
-
-    }
-
-    //JAQ_Query do I need to std::move the arguments here
-    GObject(std::string &&nameIn, mathfu::Vector<float, 3> &&positionIn) : name(nameIn), transform(positionIn){
-
-        std::cout << "Spawning " << name << " at " << transform.position[0] << ", " << transform.position[1] << "\n";
     }
 
     //Templated method prevents me having to pass gobject.transform as a parameter to the IComponent object

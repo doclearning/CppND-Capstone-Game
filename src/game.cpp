@@ -26,8 +26,25 @@ Game::~Game(){
   Controller::instance().Detach(this);
 }
 
-void Game::Start(){
+void Game::Start(Renderer &renderer, std::size_t target_frame_duration){
 
+  while(gameState != GameState::ending){
+
+    SetGameState(GameState::notrunning);
+    SetLevelState(LevelState::running, "Starting level " + std::to_string(currentLevel));
+    Run(renderer, target_frame_duration);
+
+    if(gameState == GameState::continuing){
+
+      //JAQ_Todo ramp scoring
+      score += pow(currentLevel, 2);
+      currentLevel++;
+    }else{
+      score = 0;
+      currentLevel = 1;
+    }
+  }
+  
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -45,44 +62,39 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   std::mt19937 randomEngine(randomDevice());
 
   //JAQ_Todo eventually have variable ground
+
+  //Ground
   float groundOffset = 10;
   auto groundSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight-groundOffset, 0);
   auto ground = std::make_shared<Ground>("Ground", std::move(groundSpawnPosition), screenWidth, screenHeight);
   gameObjects.push_back(ground);
 
+  //Pad
   float randomPadWidth = std::uniform_int_distribution<int>(25, 100)(randomEngine);
   float randomPadHeight = std::uniform_int_distribution<int>(10, 25)(randomEngine);
-
   auto padYPosition = (groundSpawnPosition.y-randomPadHeight/2);
   auto padSpawnPosition = mathfu::Vector<float, 3>(std::uniform_int_distribution<int>(30.0, screenWidth-30)(randomEngine), padYPosition, 0);
-  //auto padSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2+100, 0);
   auto pad = std::make_shared<Pad>("Pad", std::move(padSpawnPosition), randomPadWidth, randomPadHeight);
   gameObjects.push_back(pad);
 
   //JAQ_Todo Randomise this at the top of the screen
+
+  //Ship
   auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
   auto ship = std::make_shared<Ship>(*this, "PlayerShip", std::move(shipSpawnPosition));
   gameObjects.push_back(ship);
   
   float deltaTime = 0;
-  int frame_count = 0;
   SetGameState(GameState::running);
 
   //Core loop
   while (gameState == GameState::running) {
+
     frame_start = SDL_GetTicks();
 
-    //JAQ_Future should set up game.h as an observer as well, and handle events like that
     //Handle closing window
     SetGameState(controller.HandleClientInput());
     controller.HandleGameInput();
-
-    //Handle user key presses
-    //controller.HandleGameInput();
-
-    // if(levelState == LevelState::running && updatedGameState == GameState::transitioning)
-    //   SetGameState(updatedGameState);
-
     collisionHandler.ProcessCollisions();
     
     Update(deltaTime);
@@ -90,9 +102,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
     renderer.FrameBegin();
     for(auto &gobject : gameObjects){
       for(auto &component : gobject->components){
-        //if(instanceof<DefaultRenderComponent>(*component)){ //JAQ_Query Confused why this doesn't work
-          component->Draw(renderer);
-        //}
+        component->Draw(renderer);
       }
     }
     renderer.FrameEnd();
@@ -108,9 +118,14 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_work_done_duration);
     }
 
+    renderer.UpdateWindowTitle(score, currentLevel);
+
     frame_end = SDL_GetTicks();
     deltaTime = static_cast<float>(frame_end-frame_start)*0.001f;
   }
+
+  gameObjects.clear();
+  collisionHandler.RemoveAllColliders();
 }
 
 void Game::SetGameState(GameState gameStateIn){
@@ -139,19 +154,6 @@ void Game::Update(float deltaTime) {
   for(auto &gobject : gameObjects){
     gobject->Update(deltaTime);
   }
-}
-
-void Game::UpdateWindowDecoration(Renderer &renderer, Uint32 frame_count, Uint32 frame_duration, Uint32 frame_end, Uint32 frame_start, Uint32 title_timestamp){
-// Keep track of how long each loop through the input/update/render cycle
-    // takes.
-    frame_count++;
-
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
-      frame_count = 0;
-      title_timestamp = frame_end;
-    }
 }
 
 int Game::GetScore() const { return score; }

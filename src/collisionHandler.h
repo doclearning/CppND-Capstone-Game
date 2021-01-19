@@ -23,8 +23,8 @@ class CollisionHandler : public Singleton<CollisionHandler>, public ISubject<Col
   void AddCollider(std::shared_ptr<BoxColliderComponent> collider);
 
   //JAQ_todo
-  //void RemoveCollider(std::shared_ptr<BoxColliderComponent> collider);
-
+  void RemoveCollider(std::shared_ptr<BoxColliderComponent> collider);
+  void RemoveAllColliders();
 
   ~CollisionHandler() {  std::cout << "CollisionHandler destructed" << std::endl; }
 

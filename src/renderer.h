@@ -13,7 +13,9 @@ class Renderer {
 
   void FrameBegin();
   void FrameEnd();
-  void UpdateWindowTitle(int score, int fps);
+ 
+  void UpdateWindowTitle(int score);
+  void UpdateWindowTitle(int score, int level);
 
   //JAQ_Query Is this OK to do? Is there a new pointer allocation? If so, fairly cheap if then out of scope quickly?
   SDL_Renderer* GetRenderContext(){

@@ -58,6 +58,14 @@ void CollisionHandler::AddCollider(std::shared_ptr<BoxColliderComponent> collide
     colliders.push_back(collider);
 }
 
+void CollisionHandler::RemoveCollider(std::shared_ptr<BoxColliderComponent> collider){
+    colliders.erase(std::remove(colliders.begin(), colliders.end(), collider), colliders.end());
+}
+
+void CollisionHandler::RemoveAllColliders(){
+    colliders.clear();
+}
+
 void CollisionHandler::Attach(IObserver<Collision> *observer) {
   list_observer_.push_back(observer);
 }

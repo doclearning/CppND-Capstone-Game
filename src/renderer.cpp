@@ -51,7 +51,12 @@ void Renderer::FrameEnd(){
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Lander Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score) {
+  std::string title{"Lander --- Score: " + std::to_string(score)};
+  SDL_SetWindowTitle(sdl_window, title.c_str());
+}
+
+void Renderer::UpdateWindowTitle(int score, int level) {
+  std::string title{"Lander --- Level: " + std::to_string(level) + ", Score: " + std::to_string(score)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }

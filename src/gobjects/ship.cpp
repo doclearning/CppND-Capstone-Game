@@ -86,10 +86,13 @@ void Ship::Notified(const Collision *collision){
     bool acceptableSpeed = false; 
     bool acceptableAngle = false;
 
-    if(impactVelocity < 28)
+    //JAQ_TD The ship should not really be making these decisions. The game should.
+
+    //JAQ_Todo Need to parameterise these variables
+    if(impactVelocity < 40)
       acceptableSpeed = true;
 
-    if(impactAngle < 0.1){
+    if(impactAngle < 0.15){
       acceptableAngle = true;
     }
 
@@ -119,8 +122,7 @@ Ship::~Ship(){
   RemoveCollisionHandler();
 }
 void Ship::RemoveCollisionHandler(){
-  auto &handler = CollisionHandler::instance(); 
-  handler.Detach(this);  
+  CollisionHandler::instance().Detach(this);  
 }
 
 void Ship::RemoveInputHandler(){

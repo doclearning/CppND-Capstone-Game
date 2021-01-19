@@ -41,7 +41,5 @@ void DefaultInputComponent::Notified(const Uint8 *state){
 }
 
 DefaultInputComponent::~DefaultInputComponent(){
-
-    auto &controller = Controller::instance();
-    controller.Detach(this);
+    Controller::instance().Detach(this);
 }
