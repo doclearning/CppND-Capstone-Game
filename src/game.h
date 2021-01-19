@@ -40,7 +40,13 @@ class Game : public IObserver<Uint8>{
 
   int score{0};
   int currentLevel{1};
-  std::string LevelFinishMessage {};
+  std::string levelFinishMessage {};
+
+  const std::string ACHIEVED_LEVEL = "You reached level ";
+  const std::string ACHIEVED_SCORE_0 = "You scored ";
+  const std::string ACHIEVED_SCORE_1 = " points";
+  const std::string COMMAND_CONTINUING_MESSAGE = "Press C to continue, or R to restart.";
+  const std::string COMMAND_RESTARTING_MESSAGE = "Press R to restart.";
 
   GameState gameState;
   LevelState levelState;

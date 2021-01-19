@@ -100,8 +100,21 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
     renderer.FrameBegin();
 
-    if(levelState != LevelState::running)
-      renderer.DrawText(LevelFinishMessage, -300, 800);
+    //JAQ_Todo allow font size change
+
+    if(levelState != LevelState::running){
+      renderer.DrawText(levelFinishMessage, -150, 800);
+      renderer.DrawText("---------", -75, 800);
+
+      if(levelState == LevelState::passed){
+        renderer.DrawText(COMMAND_CONTINUING_MESSAGE, 0, 800);
+      }else{
+        renderer.DrawText(ACHIEVED_LEVEL + std::to_string(currentLevel), 0, 800);
+        renderer.DrawText(ACHIEVED_SCORE_0 + std::to_string(score) + ACHIEVED_SCORE_1, 25, 800);
+        renderer.DrawText(COMMAND_RESTARTING_MESSAGE, 100, 800);
+      }
+      
+    }
 
     for(auto &gobject : gameObjects){
       for(auto &component : gobject->components){
@@ -145,7 +158,7 @@ void Game::SetLevelState(LevelState levelStateIn, std::string message){
 
   levelState = levelStateIn;
 
-  LevelFinishMessage = std::move(message);
+  levelFinishMessage = std::move(message);
 }
 
 void Game::LevelEnded(std::string message){
