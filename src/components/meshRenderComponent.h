@@ -10,11 +10,12 @@
 
 class Renderer;
 
-//JAQ_Todo clear pointers in this class when destroyed
 class MeshRenderComponent : public IComponent {
 
 public:
     MeshRenderComponent(Transform &transformIn, GObject &gobjectIn);
+    ~MeshRenderComponent();
+
     virtual void Draw(Renderer &renderer) override;
     virtual void Update(float deltaTime) override{};
 

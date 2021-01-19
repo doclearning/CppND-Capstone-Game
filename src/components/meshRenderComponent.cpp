@@ -2,6 +2,12 @@
 
 MeshRenderComponent::MeshRenderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), rotationAxis(0.0, 0.0, 1.0){};
 
+MeshRenderComponent::~MeshRenderComponent(){
+
+  std::cout << "MeshRenderComponent destructed";
+  delete[] meshCache;
+}
+
 void MeshRenderComponent::Draw(Renderer &renderer) {
 
   if(!hasMesh)
@@ -48,18 +54,17 @@ void MeshRenderComponent::Rotate(){
 }
 
 ComponentType MeshRenderComponent::GetType(){
-    return ComponentType::meshRenderComponent;
+  return ComponentType::meshRenderComponent;
 }
 
 void MeshRenderComponent::SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
 
+  modelSpace = std::move(meshIn);
+  numVertices = modelSpace.size();
+  worldSpace = modelSpace;
+  meshCache = new SDL_Point[numVertices];
+    
+  rgba = std::move(rgbaIn);
 
-    modelSpace = std::move(meshIn);
-    worldSpace = modelSpace;
-    meshCache = new SDL_Point[modelSpace.size()];
-    numVertices = modelSpace.size();
-
-    rgba = std::move(rgbaIn); //JAQ_Query is the move necessary here, or is it automatic because it's an rvr?
-
-    hasMesh = true;
+  hasMesh = true;
 }
