@@ -19,9 +19,6 @@ public:
     virtual void Draw(Renderer &renderer) override;
     virtual void Update(float deltaTime) override{};
 
-    //JAQ_Todo remove all the get-types I think not used?
-    ComponentType GetType();
-
     void SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn);
 
 private:

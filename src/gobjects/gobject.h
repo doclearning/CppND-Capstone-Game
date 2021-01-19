@@ -67,7 +67,7 @@ public:
     //Could switch to pimpl wrapped pointer here
     std::vector<std::shared_ptr<IComponent>> components {};
 
-    virtual GobjectType GetType();
+    virtual GobjectType GetType() = 0;
 
 };
 

@@ -53,10 +53,6 @@ void MeshRenderComponent::Rotate(){
   transform.forward.Normalize();
 }
 
-ComponentType MeshRenderComponent::GetType(){
-  return ComponentType::meshRenderComponent;
-}
-
 void MeshRenderComponent::SetMesh(std::vector<mathfu::Vector<float, 3>> meshIn, mathfu::Vector<int, 4> &&rgbaIn){
 
   modelSpace = std::move(meshIn);

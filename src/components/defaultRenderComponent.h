@@ -15,10 +15,6 @@ public:
     DefaultRenderComponent(Transform &transformIn, GObject &gobjectIn);
     virtual void Draw(Renderer &renderer) override;
     virtual void Update(float deltaTime) override{};
-    
-    ComponentType GetType(){
-        return ComponentType::defaultRenderComponent;
-    }
 
 private:
     Transform &transform;

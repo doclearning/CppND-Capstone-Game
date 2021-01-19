@@ -11,5 +11,3 @@ void GObject::Update(float deltaTime){
     component->Update(deltaTime);
   }
 }
-
-GobjectType GObject::GetType(){return GobjectType::gObject;}

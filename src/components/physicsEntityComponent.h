@@ -17,10 +17,6 @@ public:
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update(float deltaTime) override;
 
-    ComponentType GetType(){
-        return ComponentType::physicsEntityComponent;
-    }
-
     void SetMass(float mass);
 
     //JAQ_Query was thinking about using Rvr here, but seems safer to copy for a rarely-used thing?

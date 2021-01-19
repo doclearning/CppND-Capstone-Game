@@ -17,10 +17,6 @@ public:
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update(float deltaTime) override;
 
-    ComponentType GetType(){
-        return ComponentType::physicsEntityComponent;
-    }
-
     void SetModelspaceBounds (mathfu::vec2 boundsXIn, mathfu::vec2 boundsYIn);
     mathfu::vec2 GetWorldSpaceBoundsX();
     mathfu::vec2 GetWorldSpaceBoundsY();

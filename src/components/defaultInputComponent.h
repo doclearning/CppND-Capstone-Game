@@ -16,11 +16,7 @@ public:
     DefaultInputComponent(Transform &transformIn, GObject &gobjectIn);
     virtual void Draw(Renderer &renderer) override{};
     virtual void Update(float deltaTime) override;
-
-    ComponentType GetType(){
-        return ComponentType::defaultInputComponent;
-    }
-
+    
     void Notified(const Uint8 *notification) override;
 
     ~DefaultInputComponent();
