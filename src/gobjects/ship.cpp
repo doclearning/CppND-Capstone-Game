@@ -21,7 +21,7 @@ static std::vector<mathfu::Vector<float, 3>> shipMeshModel {
   mathfu::vec3{-8, 8, 0}
 };
 
-float RadToDeg(float radians){ 
+constexpr float RadToDeg(float radians){ 
     return radians * (180.0/3.141592653589793238463); 
 } 
 
@@ -41,7 +41,6 @@ Ship::Ship(Game &gameIn, std::string &&nameIn, mathfu::Vector<float, 3> &&spawnP
   physicsComponent->SetDamping(0.99f);
   physicsComponent->ClearAccumulator();
 
-  //JAQ_Query This would be better in the component constructor, but need some clever variadic template/parameter pack thing perhaps?
   auto renderComponent = AddComponent<MeshRenderComponent>();
   renderComponent->SetMesh(shipMeshModel, mathfu::Vector<int, 4>(0, 255, 0, 255));
 

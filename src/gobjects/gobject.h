@@ -22,9 +22,10 @@ public:
 
     virtual void Update(float deltaTime);
 
+    //JAQ_Future Quite neat, though means you can't use the constructor. Possibly add variadic templactes/parameter packing
+
     //Templated method prevents me having to pass gobject.transform as a parameter to the IComponent object
     //The pointer is copied on the return to allow for setup of the object in the calling function
-    //JAQ_Issue Quite neat, though means you can't use the constructor. Possibly add variadic templactes/parameter packing
     template <typename T>
     std::shared_ptr<T> AddComponent(){
         std::shared_ptr<T> addedComponent = std::make_shared<T>(transform, *this);
@@ -33,16 +34,13 @@ public:
         return addedComponent;
     }
 
-    //JAQ_Refactor Fix this. It's gross.
+    //Allows me to store all types in the same vector (with slicing avoidance below)
     template<typename T>
     std::shared_ptr<T> GetComponent(){
 
-      auto componentName = typeid(T(transform, *this)).name();
-
-      //JAQ_Query As this is iterating shared pointers, am I right to iterate without the reference?
       for(auto component : components){
-        if(typeid(*(component.get())).name() == componentName)
-          return std::dynamic_pointer_cast<T>(component);
+          if(dynamic_cast<T*>(component.get()) != nullptr)
+            return std::dynamic_pointer_cast<T>(component);
       }
 
       return nullptr;
@@ -55,7 +53,6 @@ public:
         if(componentToRemove == nullptr)
           return;
 
-        //components.(std::dynamic_pointer_cast<IComponent>(componentToRemove));
         components.erase(std::remove(components.begin(), components.end(), componentToRemove), components.end());
     }
     

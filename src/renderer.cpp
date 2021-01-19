@@ -68,12 +68,11 @@ void Renderer::FrameEnd(){
 
 void Renderer::DrawText(std::string message, int verticalCenterOffset, int wrapWidth){
 
-  int textWidth;
-  int textHeight;
+  int textWidth, textHeight = 0;
+
   TTF_SizeText(font, message.c_str(), &textWidth, &textHeight);
 
-  //Handle different lengths of text
-  //int wrapWidth = 800;
+  //Auto-calc height for differing lengths of text
   int rectHeight = static_cast<float>(std::ceil(static_cast<float>(textWidth)/static_cast<float>(wrapWidth)))*textHeight;
   rectHeight = std::max(textHeight, rectHeight) + 1;
   int rectWidth = std::min(textWidth, wrapWidth);
@@ -102,13 +101,11 @@ void Renderer::UpdateWindowTitle(int score, int level) {
 }
 
 bool Renderer::LoadFont(){
-    
-    //JAQ_Todo move filename into header
-    font = TTF_OpenFont( "../ARCADE.ttf", 28 );
+
+    font = TTF_OpenFont(FONT_LOCATION_RELATIVE, 28 );
 
     if( font == NULL )
         return false;
     
-    //If everything loaded fine
     return true;    
 }

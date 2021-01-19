@@ -9,7 +9,6 @@
 
 class Renderer;
 
-//JAQ_todo probably have an IObserver here to grab collisions in the ship
 class BoxColliderComponent : public IComponent {
 
 public:

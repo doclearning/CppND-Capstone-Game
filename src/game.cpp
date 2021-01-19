@@ -43,7 +43,6 @@ void Game::Start(Renderer &renderer, std::size_t target_frame_duration){
       currentLevel = 1;
     }
   }
-  
 }
 
 void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
@@ -60,7 +59,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   std::random_device randomDevice;
   std::mt19937 randomEngine(randomDevice());
 
-  //JAQ_Todo eventually have variable ground
+  //JAQ_Future eventually have variable ground
 
   //Ground
   float groundOffset = 10;
@@ -76,10 +75,9 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
   auto pad = std::make_shared<Pad>("Pad", std::move(padSpawnPosition), randomPadWidth, randomPadHeight);
   gameObjects.push_back(pad);
 
-  //JAQ_Todo Randomise this at the top of the screen
-
   //Ship
-  auto shipSpawnPosition = mathfu::Vector<float, 3>(screenWidth/2, screenHeight/2, 0);
+  float randomShipX = std::uniform_int_distribution<int>(30, screenWidth-30)(randomEngine);
+  auto shipSpawnPosition = mathfu::Vector<float, 3>(randomShipX, 100, 0);
   auto ship = std::make_shared<Ship>(*this, "PlayerShip", std::move(shipSpawnPosition));
   gameObjects.push_back(ship);
   
@@ -100,8 +98,7 @@ void Game::Run(Renderer &renderer, std::size_t target_frame_duration) {
 
     renderer.FrameBegin();
 
-    //JAQ_Todo allow font size change
-
+    //JAQ_Future allow font size change
     if(levelState != LevelState::running){
       renderer.DrawText(levelFinishMessage, -150, 800);
       renderer.DrawText("---------", -75, 800);

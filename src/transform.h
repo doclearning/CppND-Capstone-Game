@@ -3,7 +3,6 @@
  
  #include "mathfu/vector.h"
  
- //JAQ_Query Should this be passing by reference, or maybe r-value reference
 struct Transform {
 
     Transform(){}

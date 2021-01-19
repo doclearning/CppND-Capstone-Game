@@ -20,7 +20,6 @@ class Renderer {
   void UpdateWindowTitle(int score);
   void UpdateWindowTitle(int score, int level);
 
-  //JAQ_Query Is this OK to do? Is there a new pointer allocation? If so, fairly cheap if then out of scope quickly?
   SDL_Renderer* GetRenderContext(){
     return sdl_renderer;
   }
@@ -43,6 +42,7 @@ class Renderer {
   TTF_Font *font = NULL;
   SDL_Color textColor = { 0, 255, 0 };
 
+  const char* const FONT_LOCATION_RELATIVE = "../ARCADE.ttf";
 };
 
 #endif

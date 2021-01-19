@@ -3,8 +3,7 @@
 MeshRenderComponent::MeshRenderComponent(Transform &transformIn, GObject &gobjectIn) : transform(transformIn), rotationAxis(0.0, 0.0, 1.0){};
 
 MeshRenderComponent::~MeshRenderComponent(){
-
-  std::cout << "MeshRenderComponent destructed";
+  
   delete[] meshCache;
 }
 

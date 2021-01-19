@@ -4,7 +4,7 @@
  #include "mathfu/vector.h"
  #include "boxColliderComponent.h"
  
- //JAQ_Query Should this be passing by reference, or maybe r-value reference
+ //Decided that making copies of the vectors here was safer, and not a common occurance.
 struct Collision {
 
     Collision(std::shared_ptr<BoxColliderComponent> colliderAIn, std::shared_ptr<BoxColliderComponent> &colliderBIn, mathfu::vec3 &&velocityAIn, mathfu::vec3 &&velocityBIn, mathfu::vec3 forwardAIn, mathfu::vec3 forwardBIn) : 
