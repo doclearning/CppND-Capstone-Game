@@ -7,6 +7,7 @@ The Capstone Project gives you a chance to integrate what you've learned through
 In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
 
 //Rewrite project description
+//Include behaviour
 
 ## Build Dependencies
 
@@ -94,30 +95,30 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 **Loops, Functions, I/O**
 
-- ✅ The project demonstrates an understanding of C++ functions and control structures.
+- ✅ The project demonstrates an understanding of C++ functions and control structures. (any class)
 - The project reads data from a file and process the data, or the program writes data to a file.
-- ✅ The project accepts user input and processes the input.
+- ✅ The project accepts user input and processes the input. (e.g. controller.cpp, game.cpp[ln93]])
 
 **Object Oriented Programming**
 
-- ✅ The project uses Object Oriented Programming techniques.
-- ✅ Classes use appropriate access specifiers for class members.
-- ✅ Class constructors utilize member initialization lists.
-- ✅ Classes abstract implementation details from their interfaces.
-- ✅ Classes encapsulate behavior.
-- ✅ Classes follow an appropriate inheritance hierarchy.
-- ✅ Overloaded functions allow the same function to operate on different parameters.
-- ✅ Derived class functions override virtual base class functions.
-- ✅ Templates generalize functions in the project.
+- ✅ The project uses Object Oriented Programming techniques. (all components, gobjects)
+- ✅ Classes use appropriate access specifiers for class members. (any class)
+- ✅ Class constructors utilize member initialization lists. (any class, e.g. PhysicsEntityComponent.cpp)
+- ✅ Classes abstract implementation details from their interfaces. (any class. e.g. PhysicsEntityComponent.h[ln36])
+- ✅ Classes encapsulate behavior. (many classes. e.g. ship.cpp)
+- ✅ Classes follow an appropriate inheritance hierarchy. (all components (pure virtual), all gobjects)
+- ✅ Overloaded functions allow the same function to operate on different parameters. (renderer.h[ln21])
+- ✅ Derived class functions override virtual base class functions. (all components and gobjects (e.g. pad.h[ln15]))
+- ✅ Templates generalize functions in the project. (e.g. gobject.h[ln39])
 
 **Memory Management**
 
-- ✅ The project makes use of references in function declarations.
-- ✅ The project uses destructors appropriately.
-- ✅ The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
+- ✅ The project makes use of references in function declarations. (many classes, e.g. shipInputComponent.h[ln16])
+- ✅ The project uses destructors appropriately. (when required, e.g. renderer.cpp[ln46], meshRenderComponent.h[ln5])
+- ✅ The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate. (many places, e.g. collisionHandler.cpp, renderer.cpp)
 - The project follows the Rule of 5.
-- ✅ The project uses move semantics to move data, instead of copying it, where possible.
-- ✅ The project uses smart pointers instead of raw pointers.
+- ✅ The project uses move semantics to move data, instead of copying it, where possible (as often as possible, e.g. meshRenderComponent.cpp[ln57])
+- ✅ The project uses smart pointers instead of raw pointers. (where possible, e.g. component storage in gobject.h[ln65])
 
 **Concurrency**
 - The project uses multithreading.
