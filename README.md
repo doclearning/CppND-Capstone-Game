@@ -43,7 +43,7 @@ The project contribution, however, is more in its architecture. It is an (albeit
   * Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source.
 * SDL2_image and SDL2_ttf
   * Installation instructions can be found [here](https://www.libsdl.org/projects/SDL_image/) and [here](https://www.libsdl.org/projects/SDL_ttf/)
-  * use: [sudo apt-get install libsdl2-image-dev libsdl2-ttf-dev] on workspace
+  * use: `sudo apt-get install libsdl2-image-dev libsdl2-ttf-dev` on workspace
 * gcc/g++ >= 5.4
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
