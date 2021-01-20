@@ -42,44 +42,38 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 **Execution and Game**
 
-- Main
-
-- Game
+- Main - Instantiates a few core objects, and launches game.
+- Game - Handles state and runtime for game. Encapsulates and owns all game happenings. Observer of 'game' input events.
 
 **Secondary/Wrapped Libraries**
 
-
-- Renderer
-
-- Controller
-
-- Collision Handler
+- Renderer - Wraps SDL render contexts, and has some core methods for preping the canvas and rendering text.
+- Controller - Singleton that handles all events. Observer subject. Singleton to reduce it being passed around, and enable global subscription.
+- Collision Handler - Singleton that handles and processess all game collisions. Purely aabb for this game. Extendible. Observer subject. Singleton as above.
 
 **Game Objects**
 
-- GObject
-
-- Ship
-
-- Ground
-
-- Pad
+- GObject - Core gameobject. Not purely virtual to minimise code repeition, as lots of shared functions. Component, transform, owner.
+- Ship - Abstraction of Gobject. Has some game logic (probably should have less). Observer of collision events. Uses all components.
+- Ground - Abstraction of Gobject. Represents ground.
+- Pad - Abstraction of Gobject. Represents landing pad.
 
 **Components**
 
-- BoxCollider
-
-- MeshRender
-
-- PhysicsEntity
-
-- ShipInput
+- IComponent - Pure virtual class that allows templated genericisation of components.
+- BoxColliderComponent - Implements IComponent. AABB collision component. Light.
+- MeshRenderComponent - Implements IComponent. Mesh rendering component. Utilises renderer context. Owns mesh.
+- PhysicsEntityComponent - Implements IComponent. Physics component. Represents trivial newtonian physics states.
+- ShipInputComponent - Implements IComponent. Observer of input events.
 
 **Utils**
 
-- Observer
+- Observer - Observer pattern implementation.
+- Singleton - Singleton pattern. Probably not thread-safe.
 
-- Singleton
+**Other**
+
+- Transform - Transform struct. Owned by GObject.
 
 ## Rubric Satisfaction
 
@@ -97,7 +91,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 - ✅ The project demonstrates an understanding of C++ functions and control structures. (any class)
 - The project reads data from a file and process the data, or the program writes data to a file.
-- ✅ The project accepts user input and processes the input. (e.g. controller.cpp, game.cpp[ln93]])
+- ✅ The project accepts user input and processes the input. (e.g. controller.cpp, game.cpp[ln93])
 
 **Object Oriented Programming**
 
@@ -108,7 +102,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 - ✅ Classes encapsulate behavior. (many classes. e.g. ship.cpp)
 - ✅ Classes follow an appropriate inheritance hierarchy. (all components (pure virtual), all gobjects)
 - ✅ Overloaded functions allow the same function to operate on different parameters. (renderer.h[ln21])
-- ✅ Derived class functions override virtual base class functions. (all components and gobjects (e.g. pad.h[ln15]))
+- ✅ Derived class functions override virtual base class functions. (all components and gobjects, e.g. pad.h[ln15])
 - ✅ Templates generalize functions in the project. (e.g. gobject.h[ln39])
 
 **Memory Management**
