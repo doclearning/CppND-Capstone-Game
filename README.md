@@ -1,13 +1,28 @@
 # CPPND: Capstone Game - Landerlike
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+Landerlike game. Vaguely built around the Capstone Snake project (Capstone Option 2). This game is fully playable, contains random ship spawning, random pad spawning and size, some basic level progression, in-game text, basic physics and collisions, easily-extendable input, and flexible line-rendering.
 
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
+The project contribution, however, is more in its architecture. It is an (albeit trivial) component-based game engine. This makes the game quite flexible and extensible. Random box-line terrain, asteroids, ship trails, explosions, etc could be added fairly easily.
 
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+**Future Work**
 
-//Rewrite project description
-//Include behaviour
+* Parallelise collision, game and render work
+* Asteroids, or boxes, randomly in level
+* Render ship thrust
+* Render ship explosion
+* Variadic templates to make Component creation/parameterisation cleaner
+* Use playtime to affect score
+* File IO for meshes, and probably settings
+* Mesh colliders
+* Fuel
+* Procedural terrain, using mesh collider (maybe overhangs)
+	* Place pad on any surface with accessiblity (would likely require raycasting/intersection support, and a heuristic)
+* More genericisation of components and gameobjects
+* Data structure for collisions
+* Tidy-up level and game states, and theirtransitions
+* Move ownership of a lot of stuff out of ship into game
+  * And then clean-up structure of game
+
 
 ## Build Dependencies
 
