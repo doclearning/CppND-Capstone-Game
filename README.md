@@ -23,6 +23,9 @@ The project contribution, however, is more in its architecture. It is an (albeit
 * Move ownership of a lot of stuff out of ship into game
   * And then clean-up structure of game
 
+-----------------
+
+**Appreciate usage of this font ['Arcade'](https://www.dafont.com/arcade-pizzadude.font).**
 
 ## Build Dependencies
 
@@ -30,6 +33,7 @@ The project contribution, however, is more in its architecture. It is an (albeit
 
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
+  * CmakeLists.txt uses [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
   * Linux: make is installed by default on most Linux distros
   * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
@@ -37,21 +41,22 @@ The project contribution, however, is more in its architecture. It is an (albeit
 * SDL2 >= 2.0
   * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
   * Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source.
+* SDL2_image and SDL2_ttf
+  * Installation instructions can be found [here](https://www.libsdl.org/projects/SDL_image/) and [here](https://www.libsdl.org/projects/SDL_ttf/)
+  * use: [sudo apt-get install libsdl2-image-dev libsdl2-ttf-dev] on workspace
 * gcc/g++ >= 5.4
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
-
-  //JAQ Review
+* Google Mathfu and Vectorial for vector math
+  * Embedded for laziness
 
 ### Instructions
 
-1. Clone this repo.
+1. Clone this repo
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./SnakeGame`.
-
-  //JAQ Check
+4. Run it: `./LanderClone`
 
 ## Code Structure Overview
 
