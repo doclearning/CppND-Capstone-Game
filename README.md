@@ -2,11 +2,17 @@
 
 Landerlike game. Vaguely built around the Capstone Snake project (Capstone Option 2). This game is fully playable, contains random ship spawning, random pad spawning and size, some basic level progression, in-game text, basic physics and collisions, easily-extendable input, and flexible line-rendering.
 
+The project contribution, however, is more in its architecture. It is an (albeit trivial) component-based game engine. This makes the game quite flexible and extensible. Random box-line terrain, asteroids, ship trails, explosions, etc could be added fairly easily.
+
+**Controls**
+
 - Thrust: w
 - Rotate left: a
 - Rotate right: d
 
-The project contribution, however, is more in its architecture. It is an (albeit trivial) component-based game engine. This makes the game quite flexible and extensible. Random box-line terrain, asteroids, ship trails, explosions, etc could be added fairly easily.
+**Aim**
+
+- Land slowly and vertically on the pad
 
 **Future Work**
 
